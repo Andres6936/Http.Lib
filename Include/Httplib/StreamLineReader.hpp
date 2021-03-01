@@ -3,6 +3,10 @@
 #ifndef HTTPLIB_STREAMLINEREADER_HPP
 #define HTTPLIB_STREAMLINEREADER_HPP
 
+#include <string>
+
+#include <Httplib/Stream.hpp>
+
 namespace httplib {
 
 namespace detail {
