@@ -10,6 +10,7 @@
 #include <Httplib/Request.hpp>
 #include <Httplib/Response.hpp>
 #include <Httplib/ContentReader.hpp>
+#include <Httplib/Using/Logger.hpp>
 
 namespace httplib {
 
