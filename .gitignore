@@ -30,3 +30,5 @@ ipch
 *.dSYM
 .*
 !/.travis.yml
+.idea/
+cmake-build-*/
