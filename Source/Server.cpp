@@ -1,6 +1,7 @@
 // Joan Andrés (@Andres6936) Github.
 
 #include "Httplib/Server.hpp"
+#include <Httplib/ThreadPool.hpp>
 
 using namespace httplib;
 

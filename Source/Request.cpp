@@ -1,6 +1,7 @@
 // Joan Andrés (@Andres6936) Github.
 
 #include "Httplib/Request.hpp"
+#include <Httplib/Detail/Header.hpp>
 
 using namespace httplib;
 

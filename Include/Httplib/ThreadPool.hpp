@@ -3,6 +3,13 @@
 #ifndef HTTPLIB_THREADPOOL_HPP
 #define HTTPLIB_THREADPOOL_HPP
 
+#include <list>
+#include <thread>
+#include <cassert>
+#include <functional>
+
+#include <Httplib/TaskQueue.hpp>
+
 namespace httplib {
 
 
