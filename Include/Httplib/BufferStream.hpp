@@ -3,6 +3,10 @@
 #ifndef HTTPLIB_BUFFERSTREAM_HPP
 #define HTTPLIB_BUFFERSTREAM_HPP
 
+#include <string>
+
+#include <Httplib/Stream.hpp>
+
 namespace httplib {
 
 class BufferStream : public Stream {
