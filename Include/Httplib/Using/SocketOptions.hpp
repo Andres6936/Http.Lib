@@ -5,6 +5,8 @@
 
 #include <functional>
 
+#include <Httplib/Using/SocketType.hpp>
+
 namespace httplib {
 
 using SocketOptions = std::function<void(socket_t sock)>;
