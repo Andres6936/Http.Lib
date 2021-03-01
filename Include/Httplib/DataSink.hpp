@@ -3,6 +3,9 @@
 #ifndef HTTPLIB_DATASINK_HPP
 #define HTTPLIB_DATASINK_HPP
 
+#include <ostream>
+#include <functional>
+
 namespace httplib {
 
 class DataSink {

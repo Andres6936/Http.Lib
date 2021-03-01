@@ -6,6 +6,7 @@
 #include <string>
 
 #include <Httplib/Headers.hpp>
+#include <Httplib/DataSink.hpp>
 #include <Httplib/MultipartFormData.hpp>
 #include <Httplib/Using/Match.hpp>
 #include <Httplib/Using/Params.hpp>

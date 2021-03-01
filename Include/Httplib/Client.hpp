@@ -10,6 +10,7 @@
 #include <Httplib/Request.hpp>
 #include <Httplib/Headers.hpp>
 #include <Httplib/Response.hpp>
+#include <Httplib/DataSink.hpp>
 #include <Httplib/Using/Logger.hpp>
 #include <Httplib/Using/Params.hpp>
 #include <Httplib/Using/Progress.hpp>

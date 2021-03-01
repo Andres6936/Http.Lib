@@ -6,6 +6,7 @@
 #include <functional>
 
 #include <Httplib/Headers.hpp>
+#include <Httplib/DataSink.hpp>
 
 namespace httplib {
 
