@@ -271,11 +271,6 @@ make_unique(std::size_t n) {
 
 } // namespace detail
 
-using Match = std::smatch;
-using Range = std::pair<ssize_t, ssize_t>;
-using Ranges = std::vector<Range>;
-using SocketOptions = std::function<void(socket_t sock)>;
-
 inline void default_socket_options(socket_t sock) {
   int yes = 1;
 #ifdef _WIN32
