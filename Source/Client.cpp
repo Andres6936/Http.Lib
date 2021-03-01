@@ -1,6 +1,7 @@
 // Joan Andrés (@Andres6936) Github.
 
 #include "Httplib/Client.hpp"
+#include <Httplib/Detail/Memory.hpp>
 
 using namespace httplib;
 
