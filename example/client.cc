@@ -5,7 +5,7 @@
 //  MIT License
 //
 
-#include <httplib.h>
+#include <Httplib.h>
 #include <iostream>
 
 #define CA_CERT_FILE "./ca-bundle.crt"

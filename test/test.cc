@@ -1,4 +1,4 @@
-#include <httplib.h>
+#include <Httplib.h>
 
 #include <gtest/gtest.h>
 

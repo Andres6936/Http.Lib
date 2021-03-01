@@ -5,7 +5,7 @@
 //  MIT License
 //
 
-#include <httplib.h>
+#include <Httplib.h>
 #include <iostream>
 
 using namespace std;
