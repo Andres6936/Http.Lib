@@ -13,6 +13,7 @@
 #include <Httplib/Using/Logger.hpp>
 #include <Httplib/Using/Params.hpp>
 #include <Httplib/Using/Progress.hpp>
+#include <Httplib/Using/SocketOptions.hpp>
 #include <Httplib/Using/ContentReceiver.hpp>
 
 namespace httplib {
