@@ -1,5 +1,7 @@
 // Joan Andrés (@Andres6936) Github.
 
+#include <cassert>
+
 #include "Httplib/Response.hpp"
 #include <Httplib/Detail/Header.hpp>
 
