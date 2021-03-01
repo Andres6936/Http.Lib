@@ -90,6 +90,7 @@ project(httplib VERSION ${_httplib_version} LANGUAGES CXX)
 # Change as needed to set an OpenSSL minimum version.
 # This is used in the installed Cmake config file.
 set(_HTTPLIB_OPENSSL_MIN_VER "1.1.1")
+set(HTTPLIB_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Allow for a build to require OpenSSL to pass, instead of just being optional
 option(HTTPLIB_REQUIRE_OPENSSL "Requires OpenSSL to be found & linked, or fails build." OFF)
@@ -308,4 +309,5 @@ install(EXPORT httplibTargets
 	DESTINATION ${_TARGET_INSTALL_CMAKEDIR}
 )
 
+ADD_SUBDIRECTORY(Source/)
 ADD_SUBDIRECTORY(example/)
