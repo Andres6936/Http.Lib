@@ -5,6 +5,8 @@
 
 namespace httplib {
 
+namespace detail {
+
 
 // NOTE: until the read size reaches `fixed_buffer_size`, use `fixed_buffer`
 // to store data. The call can set memory on stack for performance.
@@ -81,6 +83,8 @@ private:
   size_t fixed_buffer_used_size_ = 0;
   std::string glowable_buffer_;
 };
+
+}
 
 } // namespace httplib
 

@@ -1,6 +1,9 @@
 // Joan Andrés (@Andres6936) Github.
 
+#include <cassert>
+
 #include "Httplib/ClientImpl.hpp"
+#include <Httplib/StreamLineReader.hpp>
 
 using namespace httplib;
 
