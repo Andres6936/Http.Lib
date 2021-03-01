@@ -3,6 +3,10 @@
 #ifndef HTTPLIB_SOCKETSTREAM_HPP
 #define HTTPLIB_SOCKETSTREAM_HPP
 
+#include <string>
+
+#include <Httplib/Stream.hpp>
+
 namespace httplib {
 
 
