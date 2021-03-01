@@ -4,6 +4,7 @@
 
 #include "Httplib/ClientImpl.hpp"
 #include <Httplib/StreamLineReader.hpp>
+#include <Httplib/Detail/Socket/Client.hpp>
 
 using namespace httplib;
 
