@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_CONTENTREADER_HPP
 #define HTTPLIB_CONTENTREADER_HPP
 
+#include <Httplib/Using/ContentReceiver.hpp>
+
 namespace httplib {
 
 class ContentReader {

@@ -3,6 +3,14 @@
 #ifndef HTTPLIB_SERVER_HPP
 #define HTTPLIB_SERVER_HPP
 
+#include <regex>
+#include <functional>
+
+#include <Httplib/Stream.hpp>
+#include <Httplib/Request.hpp>
+#include <Httplib/Response.hpp>
+#include <Httplib/ContentReader.hpp>
+
 namespace httplib {
 
 

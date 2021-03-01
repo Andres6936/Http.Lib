@@ -8,6 +8,7 @@
 
 #include <Httplib/Headers.hpp>
 #include <Httplib/Response.hpp>
+#include <Httplib/Enum/Error.hpp>
 
 namespace httplib {
 
