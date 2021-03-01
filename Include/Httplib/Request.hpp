@@ -7,7 +7,9 @@
 
 #include <Httplib/Headers.hpp>
 #include <Httplib/MultipartFormData.hpp>
+#include <Httplib/Using/Match.hpp>
 #include <Httplib/Using/Params.hpp>
+#include <Httplib/Using/Ranges.hpp>
 #include <Httplib/Using/Progress.hpp>
 
 namespace httplib {

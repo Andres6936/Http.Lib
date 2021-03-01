@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include <Httplib/Using/SocketType.hpp>
+
 namespace httplib {
 
 class Stream {

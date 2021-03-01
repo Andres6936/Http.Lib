@@ -4,13 +4,17 @@
 #define HTTPLIB_SERVER_HPP
 
 #include <regex>
+#include <atomic>
 #include <functional>
 
-#include <Httplib/Stream.hpp>
+#include <Httplib/ContentReader.hpp>
 #include <Httplib/Request.hpp>
 #include <Httplib/Response.hpp>
-#include <Httplib/ContentReader.hpp>
+#include <Httplib/Stream.hpp>
+#include <Httplib/TaskQueue.hpp>
 #include <Httplib/Using/Logger.hpp>
+#include <Httplib/Using/SocketOptions.hpp>
+
 
 namespace httplib {
 

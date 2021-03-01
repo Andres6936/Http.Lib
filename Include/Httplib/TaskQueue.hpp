@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_TASKQUEUE_HPP
 #define HTTPLIB_TASKQUEUE_HPP
 
+#include <functional>
+
 namespace httplib {
 
 

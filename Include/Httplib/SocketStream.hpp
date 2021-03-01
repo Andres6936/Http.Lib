@@ -6,6 +6,7 @@
 #include <string>
 
 #include <Httplib/Stream.hpp>
+#include <Httplib/Using/SocketType.hpp>
 
 namespace httplib {
 

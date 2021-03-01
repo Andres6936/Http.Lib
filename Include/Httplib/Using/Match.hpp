@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_MATCH_HPP
 #define HTTPLIB_MATCH_HPP
 
+#include <regex>
+
 namespace httplib {
 
 using Match = std::smatch;
