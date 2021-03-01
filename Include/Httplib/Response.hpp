@@ -5,6 +5,8 @@
 
 #include <functional>
 
+#include <Httplib/Headers.hpp>
+
 namespace httplib {
 
 
