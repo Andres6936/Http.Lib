@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_STREAM_HPP
 #define HTTPLIB_STREAM_HPP
 
+#include <string>
+
 namespace httplib {
 
 class Stream {
