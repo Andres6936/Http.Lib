@@ -3,6 +3,13 @@
 #ifndef HTTPLIB_REQUEST_HPP
 #define HTTPLIB_REQUEST_HPP
 
+#include <string>
+
+#include <Httplib/Headers.hpp>
+#include <Httplib/MultipartFormData.hpp>
+#include <Httplib/Using/Params.hpp>
+#include <Httplib/Using/Progress.hpp>
+
 namespace httplib {
 
 
