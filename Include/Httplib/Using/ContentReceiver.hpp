@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_CONTENTRECEIVER_HPP
 #define HTTPLIB_CONTENTRECEIVER_HPP
 
+#include <functional>
+
 namespace httplib {
 
 using ContentReceiver =
