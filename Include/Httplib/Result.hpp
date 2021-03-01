@@ -3,6 +3,12 @@
 #ifndef HTTPLIB_RESULT_HPP
 #define HTTPLIB_RESULT_HPP
 
+#include <string>
+#include <memory>
+
+#include <Httplib/Headers.hpp>
+#include <Httplib/Response.hpp>
+
 namespace httplib {
 
 
