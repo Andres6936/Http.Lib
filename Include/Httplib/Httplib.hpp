@@ -295,21 +295,7 @@ inline void default_socket_options(socket_t sock) {
 }
 
 
-enum Error {
-  Success = 0,
-  Unknown,
-  Connection,
-  BindIPAddress,
-  Read,
-  Write,
-  ExceedRedirectCount,
-  Canceled,
-  SSLConnection,
-  SSLLoadingCerts,
-  SSLServerVerification,
-  UnsupportedMultipartBoundaryChars,
-  Compression,
-};
+
 
 // ----------------------------------------------------------------------------
 
