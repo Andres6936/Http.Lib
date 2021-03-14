@@ -1,4 +1,6 @@
 ADD_LIBRARY(Httplib STATIC
+        SSL/Client.cpp
+        SSL/Server.cpp
         SSL/SocketStream.cpp
         BufferStream.cpp
         Client.cpp
@@ -8,8 +10,6 @@ ADD_LIBRARY(Httplib STATIC
         Result.cpp
         Server.cpp
         SocketStream.cpp
-        SSLClient.cpp
-        SSLServer.cpp
         Stream.cpp
         )
 TARGET_INCLUDE_DIRECTORIES(Httplib PUBLIC $<BUILD_INTERFACE:${HTTPLIB_ROOT_DIR}/Include>)
