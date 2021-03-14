@@ -6,6 +6,7 @@
 #include "Httplib/ClientImpl.hpp"
 #include <Httplib/Detail/Memory.hpp>
 #include <Httplib/StreamLineReader.hpp>
+#include <Httplib/Auth/Authentication.hpp>
 #include <Httplib/Detail/Socket/Client.hpp>
 
 using namespace httplib;
