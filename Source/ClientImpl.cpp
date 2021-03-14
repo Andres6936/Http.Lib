@@ -9,6 +9,7 @@
 #include <Httplib/StreamLineReader.hpp>
 #include <Httplib/Auth/Authentication.hpp>
 #include <Httplib/Detail/Socket/Client.hpp>
+#include <Httplib/Detail/Socket/Common.hpp>
 
 using namespace httplib;
 
