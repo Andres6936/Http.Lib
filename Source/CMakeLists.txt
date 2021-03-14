@@ -1,4 +1,5 @@
 ADD_LIBRARY(Httplib STATIC
+        SSL/SocketStream.cpp
         BufferStream.cpp
         Client.cpp
         ClientImpl.cpp
