@@ -145,6 +145,20 @@ inline bool parse_range_header(const std::string &s, Ranges &ranges) try {
   return false;
 } catch (...) { return false; }
 
+// Header utilities
+inline std::pair<std::string, std::string> make_range_header(Ranges ranges) {
+  std::string field = "bytes=";
+  auto i = 0;
+  for (auto r : ranges) {
+    if (i != 0) { field += ", "; }
+    if (r.first != -1) { field += std::to_string(r.first); }
+    field += '-';
+    if (r.second != -1) { field += std::to_string(r.second); }
+    i++;
+  }
+  return std::make_pair("Range", std::move(field));
+}
+
 }
 
 } // namespace httplib
