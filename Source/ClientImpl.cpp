@@ -1,8 +1,10 @@
 // Joan Andrés (@Andres6936) Github.
 
+#include <mutex>
 #include <cassert>
 
 #include "Httplib/ClientImpl.hpp"
+#include <Httplib/Detail/Memory.hpp>
 #include <Httplib/StreamLineReader.hpp>
 #include <Httplib/Detail/Socket/Client.hpp>
 
