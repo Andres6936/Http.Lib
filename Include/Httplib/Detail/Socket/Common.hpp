@@ -199,6 +199,24 @@ socket_t create_socket(const char *host, int port, int socket_flags,
   return INVALID_SOCKET;
 }
 
+template <typename T> inline ssize_t handle_EINTR(T fn) {
+  ssize_t res = false;
+  while (true) {
+    res = fn();
+    if (res < 0 && errno == EINTR) { continue; }
+    break;
+  }
+  return res;
+}
+
+
+inline bool is_connection_error() {
+#ifdef _WIN32
+  return WSAGetLastError() != WSAEWOULDBLOCK;
+#else
+  return errno != EINPROGRESS;
+#endif
+}
 
 inline ssize_t select_read(socket_t sock, time_t sec, time_t usec) {
 #ifdef CPPHTTPLIB_USE_POLL

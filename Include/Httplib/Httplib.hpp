@@ -436,24 +436,7 @@ template <class Fn> void split(const char *b, const char *e, char d, Fn fn) {
 
 
 
-template <typename T> inline ssize_t handle_EINTR(T fn) {
-  ssize_t res = false;
-  while (true) {
-    res = fn();
-    if (res < 0 && errno == EINTR) { continue; }
-    break;
-  }
-  return res;
-}
 
-
-inline bool is_connection_error() {
-#ifdef _WIN32
-  return WSAGetLastError() != WSAEWOULDBLOCK;
-#else
-  return errno != EINPROGRESS;
-#endif
-}
 
 
 
