@@ -3,6 +3,9 @@
 #ifndef HTTPLIB_COMMON_HPP
 #define HTTPLIB_COMMON_HPP
 
+
+#include <Httplib/Using/SocketType.hpp>
+
 #ifdef _WIN32
 #ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
@@ -68,14 +71,14 @@ using socket_t = SOCKET;
 #include <ifaddrs.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 
 #ifdef __linux__
 
+#include <fcntl.h>
 #include <resolv.h>
 
 #endif // end __linux__
-
-#include <netinet/tcp.h>
 
 #ifdef CPPHTTPLIB_USE_POLL
 
@@ -88,8 +91,6 @@ using socket_t = SOCKET;
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <unistd.h>
-
-using socket_t = int;
 
 #define INVALID_SOCKET (-1)
 
