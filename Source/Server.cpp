@@ -15,6 +15,7 @@
 #include <Httplib/Util/RangeOffset.hpp>
 #include <Httplib/Util/NoCompressor.hpp>
 
+#include <Httplib/Detail/MIME.hpp>
 #include <Httplib/Detail/Memory.hpp>
 #include <Httplib/Detail/Header.hpp>
 #include <Httplib/Detail/Content.hpp>
