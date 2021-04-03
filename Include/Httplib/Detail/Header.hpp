@@ -3,9 +3,12 @@
 #ifndef HTTPLIB_HEADER_HPP
 #define HTTPLIB_HEADER_HPP
 
+#include <regex>
+
 #include <Httplib/StreamLineReader.hpp>
 #include <Httplib/Util/Decode.hpp>
 #include <Httplib/Util/String.hpp>
+#include <Httplib/Using/Ranges.hpp>
 
 namespace httplib {
 
