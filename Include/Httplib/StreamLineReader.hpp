@@ -4,6 +4,7 @@
 #define HTTPLIB_STREAMLINEREADER_HPP
 
 #include <string>
+#include <cassert>
 
 #include <Httplib/Stream.hpp>
 
