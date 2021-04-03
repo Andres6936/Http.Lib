@@ -2,9 +2,9 @@
 
 #include "Httplib/Server.hpp"
 #include <Httplib/ThreadPool.hpp>
+#include <Httplib/BufferStream.hpp>
 #include <Httplib/MultipartFormDataParser.hpp>
 
-#include <Httplib/BufferStream.hpp>
 #include <Httplib/Util/Query.hpp>
 #include <Httplib/Util/Decode.hpp>
 #include <Httplib/Util/Encode.hpp>
@@ -12,6 +12,7 @@
 #include <Httplib/Detail/Content.hpp>
 #include <Httplib/Detail/StatusMessage.hpp>
 #include <Httplib/Detail/Socket/Common.hpp>
+#include <Httplib/Enum/EncodingType.hpp>
 
 using namespace httplib;
 
