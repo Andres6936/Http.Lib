@@ -9,8 +9,6 @@ namespace detail {
 
 enum class EncodingType { None = 0, Gzip, Brotli };
 
-}
-
 inline EncodingType encoding_type(const Request &req, const Response &res) {
   auto ret =
       detail::can_compress_content_type(res.get_header_value("Content-Type"));
@@ -32,6 +30,8 @@ inline EncodingType encoding_type(const Request &req, const Response &res) {
 #endif
 
   return EncodingType::None;
+}
+
 }
 
 } // namespace httplib
