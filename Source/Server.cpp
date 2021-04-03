@@ -6,6 +6,7 @@
 #include <Httplib/Configuration.hpp>
 #include <Httplib/MultipartFormDataParser.hpp>
 
+#include <Httplib/Util/IO.hpp>
 #include <Httplib/Util/Query.hpp>
 #include <Httplib/Util/Decode.hpp>
 #include <Httplib/Util/Encode.hpp>
