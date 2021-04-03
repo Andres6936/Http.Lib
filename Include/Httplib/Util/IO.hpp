@@ -3,6 +3,9 @@
 #ifndef HTTPLIB_IO_HPP
 #define HTTPLIB_IO_HPP
 
+#include <fstream>
+#include <sys/stat.h>
+
 namespace httplib {
 
 namespace detail {
