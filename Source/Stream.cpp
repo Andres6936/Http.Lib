@@ -1,5 +1,9 @@
 // Joan Andrés (@Andres6936) Github.
 
+#include <array>
+#include <vector>
+#include <cstring>
+
 #include "Httplib/Stream.hpp"
 
 using namespace httplib;
@@ -7,7 +11,7 @@ using namespace httplib;
 
 // Stream implementation
 inline ssize_t Stream::write(const char *ptr) {
-  return write(ptr, strlen(ptr));
+  return write(ptr, std::strlen(ptr));
 }
 
 inline ssize_t Stream::write(const std::string &s) {
