@@ -7,6 +7,7 @@
 #include <chrono>
 
 #include <Httplib/Using/SocketType.hpp>
+#include <Httplib/Using/SocketOptions.hpp>
 
 #ifdef _WIN32
 #ifndef _CRT_SECURE_NO_WARNINGS
