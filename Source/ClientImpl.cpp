@@ -10,6 +10,7 @@
 #include <Httplib/Detail/Header.hpp>
 #include <Httplib/Detail/Content.hpp>
 
+#include <Httplib/Util/Encode.hpp>
 #include <Httplib/Util/Decode.hpp>
 #include <Httplib/Util/Navigation.hpp>
 #include <Httplib/Util/Compressor.hpp>
