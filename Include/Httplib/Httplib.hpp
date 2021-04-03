@@ -194,15 +194,7 @@ inline std::string if2ip(const std::string &ifn) {
 
 
 
-inline void get_remote_ip_and_port(socket_t sock, std::string &ip, int &port) {
-  struct sockaddr_storage addr;
-  socklen_t addr_len = sizeof(addr);
 
-  if (!getpeername(sock, reinterpret_cast<struct sockaddr *>(&addr),
-                   &addr_len)) {
-    get_remote_ip_and_port(addr, addr_len, ip, port);
-  }
-}
 
 inline constexpr unsigned int str2tag_core(const char *s, size_t l,
                                            unsigned int h) {
