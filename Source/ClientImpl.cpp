@@ -30,13 +30,13 @@ using namespace httplib;
 
 
 // HTTP client implementation
-inline ClientImpl::ClientImpl(const std::string &host)
+ClientImpl::ClientImpl(const std::string &host)
     : ClientImpl(host, 80, std::string(), std::string()) {}
 
-inline ClientImpl::ClientImpl(const std::string &host, int port)
+ClientImpl::ClientImpl(const std::string &host, int port)
     : ClientImpl(host, port, std::string(), std::string()) {}
 
-inline ClientImpl::ClientImpl(const std::string &host, int port,
+ClientImpl::ClientImpl(const std::string &host, int port,
     const std::string &client_cert_path,
     const std::string &client_key_path)
 // : (Error::Success), host_(host), port_(port),
@@ -44,11 +44,11 @@ inline ClientImpl::ClientImpl(const std::string &host, int port,
       host_and_port_(host_ + ":" + std::to_string(port_)),
       client_cert_path_(client_cert_path), client_key_path_(client_key_path) {}
 
-inline ClientImpl::~ClientImpl() { lock_socket_and_shutdown_and_close(); }
+ClientImpl::~ClientImpl() { lock_socket_and_shutdown_and_close(); }
 
-inline bool ClientImpl::is_valid() const { return true; }
+bool ClientImpl::is_valid() const { return true; }
 
-inline void ClientImpl::copy_settings(const ClientImpl &rhs) {
+void ClientImpl::copy_settings(const ClientImpl &rhs) {
   client_cert_path_ = rhs.client_cert_path_;
   client_key_path_ = rhs.client_key_path_;
   connection_timeout_sec_ = rhs.connection_timeout_sec_;
@@ -85,7 +85,7 @@ inline void ClientImpl::copy_settings(const ClientImpl &rhs) {
   logger_ = rhs.logger_;
 }
 
-inline socket_t ClientImpl::create_client_socket(Error &error) const {
+socket_t ClientImpl::create_client_socket(Error &error) const {
   if (!proxy_host_.empty() && proxy_port_ != -1) {
     return detail::create_client_socket(
         proxy_host_.c_str(), proxy_port_, tcp_nodelay_, socket_options_,
@@ -96,7 +96,7 @@ inline socket_t ClientImpl::create_client_socket(Error &error) const {
       connection_timeout_sec_, connection_timeout_usec_, interface_, error);
 }
 
-inline bool ClientImpl::create_and_connect_socket(Socket &socket,
+bool ClientImpl::create_and_connect_socket(Socket &socket,
     Error &error) {
   auto sock = create_client_socket(error);
   if (sock == INVALID_SOCKET) { return false; }
@@ -104,7 +104,7 @@ inline bool ClientImpl::create_and_connect_socket(Socket &socket,
   return true;
 }
 
-inline void ClientImpl::shutdown_ssl(Socket & /*socket*/,
+void ClientImpl::shutdown_ssl(Socket & /*socket*/,
     bool /*shutdown_gracefully*/) {
   // If there are any requests in flight from threads other than us, then it's
   // a thread-unsafe race because individual ssl* objects are not thread-safe.
@@ -112,12 +112,12 @@ inline void ClientImpl::shutdown_ssl(Socket & /*socket*/,
          socket_requests_are_from_thread_ == std::this_thread::get_id());
 }
 
-inline void ClientImpl::shutdown_socket(Socket &socket) {
+void ClientImpl::shutdown_socket(Socket &socket) {
   if (socket.sock == INVALID_SOCKET) { return; }
   detail::shutdown_socket(socket.sock);
 }
 
-inline void ClientImpl::close_socket(Socket &socket) {
+void ClientImpl::close_socket(Socket &socket) {
   // If there are requests in flight in another thread, usually closing
   // the socket will be fine and they will simply receive an error when
   // using the closed socket, but it is still a bug since rarely the OS
@@ -136,14 +136,14 @@ inline void ClientImpl::close_socket(Socket &socket) {
   socket.sock = INVALID_SOCKET;
 }
 
-inline void ClientImpl::lock_socket_and_shutdown_and_close() {
+void ClientImpl::lock_socket_and_shutdown_and_close() {
   std::lock_guard<std::mutex> guard(socket_mutex_);
   shutdown_ssl(socket_, true);
   shutdown_socket(socket_);
   close_socket(socket_);
 }
 
-inline bool ClientImpl::read_response_line(Stream &strm, const Request &req,
+bool ClientImpl::read_response_line(Stream &strm, const Request &req,
     Response &res) {
   std::array<char, 2048> buf;
 
@@ -175,7 +175,7 @@ inline bool ClientImpl::read_response_line(Stream &strm, const Request &req,
   return true;
 }
 
-inline bool ClientImpl::send(Request &req, Response &res, Error &error) {
+bool ClientImpl::send(Request &req, Response &res, Error &error) {
   std::lock_guard<std::recursive_mutex> request_mutex_guard(request_mutex_);
 
   {
@@ -265,19 +265,19 @@ inline bool ClientImpl::send(Request &req, Response &res, Error &error) {
 
 
 
-inline Result ClientImpl::send(const Request &req) {
+Result ClientImpl::send(const Request &req) {
   auto req2 = req;
   return send_(std::move(req2));
 }
 
-inline Result ClientImpl::send_(Request &&req) {
+Result ClientImpl::send_(Request &&req) {
   auto res = detail::make_unique<Response>();
   auto error = Error::Success;
   auto ret = send(req, *res, error);
   return Result{ret ? std::move(res) : nullptr, error, std::move(req.headers)};
 }
 
-inline bool ClientImpl::handle_request(Stream &strm, Request &req,
+bool ClientImpl::handle_request(Stream &strm, Request &req,
     Response &res, bool close_connection,
     Error &error) {
   if (req.path.empty()) {
@@ -338,7 +338,7 @@ inline bool ClientImpl::handle_request(Stream &strm, Request &req,
   return ret;
 }
 
-inline bool ClientImpl::redirect(Request &req, Response &res, Error &error) {
+bool ClientImpl::redirect(Request &req, Response &res, Error &error) {
   if (req.redirect_count_ == 0) {
     error = Error::ExceedRedirectCount;
     return false;
@@ -390,7 +390,7 @@ inline bool ClientImpl::redirect(Request &req, Response &res, Error &error) {
   }
 }
 
-inline bool ClientImpl::write_content_with_provider(Stream &strm,
+bool ClientImpl::write_content_with_provider(Stream &strm,
     const Request &req,
     Error &error) {
   auto is_shutting_down = []() { return false; };
@@ -415,7 +415,7 @@ inline bool ClientImpl::write_content_with_provider(Stream &strm,
   }
 } // namespace httplib
 
-inline bool ClientImpl::write_request(Stream &strm, Request &req,
+bool ClientImpl::write_request(Stream &strm, Request &req,
     bool close_connection, Error &error) {
   // Prepare additional headers
   if (close_connection) { req.headers.emplace("Connection", "close"); }
@@ -513,7 +513,7 @@ inline bool ClientImpl::write_request(Stream &strm, Request &req,
   return true;
 }
 
-inline std::unique_ptr<Response> ClientImpl::send_with_content_provider(
+std::unique_ptr<Response> ClientImpl::send_with_content_provider(
     Request &req,
     // const char *method, const char *path, const Headers &headers,
     const char *body, size_t content_length, ContentProvider content_provider,
@@ -600,7 +600,7 @@ inline std::unique_ptr<Response> ClientImpl::send_with_content_provider(
   return send(req, *res, error) ? std::move(res) : nullptr;
 }
 
-inline Result ClientImpl::send_with_content_provider(
+Result ClientImpl::send_with_content_provider(
     const char *method, const char *path, const Headers &headers,
     const char *body, size_t content_length, ContentProvider content_provider,
     ContentProviderWithoutLength content_provider_without_length,
@@ -621,7 +621,7 @@ inline Result ClientImpl::send_with_content_provider(
   return Result{std::move(res), error, std::move(req.headers)};
 }
 
-inline bool ClientImpl::process_request(Stream &strm, Request &req,
+bool ClientImpl::process_request(Stream &strm, Request &req,
     Response &res, bool close_connection,
     Error &error) {
   // Send request
@@ -698,7 +698,7 @@ inline bool ClientImpl::process_request(Stream &strm, Request &req,
   return true;
 }
 
-inline bool
+bool
 ClientImpl::process_socket(const Socket &socket,
     std::function<bool(Stream &strm)> callback) {
   return detail::process_client_socket(
@@ -706,21 +706,21 @@ ClientImpl::process_socket(const Socket &socket,
       write_timeout_usec_, std::move(callback));
 }
 
-inline bool ClientImpl::is_ssl() const { return false; }
+bool ClientImpl::is_ssl() const { return false; }
 
-inline Result ClientImpl::Get(const char *path) {
+Result ClientImpl::Get(const char *path) {
   return Get(path, Headers(), Progress());
 }
 
-inline Result ClientImpl::Get(const char *path, Progress progress) {
+Result ClientImpl::Get(const char *path, Progress progress) {
   return Get(path, Headers(), std::move(progress));
 }
 
-inline Result ClientImpl::Get(const char *path, const Headers &headers) {
+Result ClientImpl::Get(const char *path, const Headers &headers) {
   return Get(path, headers, Progress());
 }
 
-inline Result ClientImpl::Get(const char *path, const Headers &headers,
+Result ClientImpl::Get(const char *path, const Headers &headers,
     Progress progress) {
   Request req;
   req.method = "GET";
@@ -731,45 +731,45 @@ inline Result ClientImpl::Get(const char *path, const Headers &headers,
   return send_(std::move(req));
 }
 
-inline Result ClientImpl::Get(const char *path,
+Result ClientImpl::Get(const char *path,
     ContentReceiver content_receiver) {
   return Get(path, Headers(), nullptr, std::move(content_receiver), nullptr);
 }
 
-inline Result ClientImpl::Get(const char *path,
+Result ClientImpl::Get(const char *path,
     ContentReceiver content_receiver,
     Progress progress) {
   return Get(path, Headers(), nullptr, std::move(content_receiver),
       std::move(progress));
 }
 
-inline Result ClientImpl::Get(const char *path, const Headers &headers,
+Result ClientImpl::Get(const char *path, const Headers &headers,
     ContentReceiver content_receiver) {
   return Get(path, headers, nullptr, std::move(content_receiver), nullptr);
 }
 
-inline Result ClientImpl::Get(const char *path, const Headers &headers,
+Result ClientImpl::Get(const char *path, const Headers &headers,
     ContentReceiver content_receiver,
     Progress progress) {
   return Get(path, headers, nullptr, std::move(content_receiver),
       std::move(progress));
 }
 
-inline Result ClientImpl::Get(const char *path,
+Result ClientImpl::Get(const char *path,
     ResponseHandler response_handler,
     ContentReceiver content_receiver) {
   return Get(path, Headers(), std::move(response_handler),
       std::move(content_receiver), nullptr);
 }
 
-inline Result ClientImpl::Get(const char *path, const Headers &headers,
+Result ClientImpl::Get(const char *path, const Headers &headers,
     ResponseHandler response_handler,
     ContentReceiver content_receiver) {
   return Get(path, headers, std::move(response_handler),
       std::move(content_receiver), nullptr);
 }
 
-inline Result ClientImpl::Get(const char *path,
+Result ClientImpl::Get(const char *path,
     ResponseHandler response_handler,
     ContentReceiver content_receiver,
     Progress progress) {
@@ -777,7 +777,7 @@ inline Result ClientImpl::Get(const char *path,
       std::move(content_receiver), std::move(progress));
 }
 
-inline Result ClientImpl::Get(const char *path, const Headers &headers,
+Result ClientImpl::Get(const char *path, const Headers &headers,
     ResponseHandler response_handler,
     ContentReceiver content_receiver,
     Progress progress) {
@@ -796,7 +796,7 @@ inline Result ClientImpl::Get(const char *path, const Headers &headers,
   return send_(std::move(req));
 }
 
-inline Result ClientImpl::Get(const char *path, const Params &params,
+Result ClientImpl::Get(const char *path, const Params &params,
     const Headers &headers, Progress progress) {
   if (params.empty()) { return Get(path, headers); }
 
@@ -804,14 +804,14 @@ inline Result ClientImpl::Get(const char *path, const Params &params,
   return Get(path_with_query.c_str(), headers, progress);
 }
 
-inline Result ClientImpl::Get(const char *path, const Params &params,
+Result ClientImpl::Get(const char *path, const Params &params,
     const Headers &headers,
     ContentReceiver content_receiver,
     Progress progress) {
   return Get(path, params, headers, nullptr, content_receiver, progress);
 }
 
-inline Result ClientImpl::Get(const char *path, const Params &params,
+Result ClientImpl::Get(const char *path, const Params &params,
     const Headers &headers,
     ResponseHandler response_handler,
     ContentReceiver content_receiver,
@@ -825,11 +825,11 @@ inline Result ClientImpl::Get(const char *path, const Params &params,
       content_receiver, progress);
 }
 
-inline Result ClientImpl::Head(const char *path) {
+Result ClientImpl::Head(const char *path) {
   return Head(path, Headers());
 }
 
-inline Result ClientImpl::Head(const char *path, const Headers &headers) {
+Result ClientImpl::Head(const char *path, const Headers &headers) {
   Request req;
   req.method = "HEAD";
   req.headers = headers;
@@ -838,29 +838,29 @@ inline Result ClientImpl::Head(const char *path, const Headers &headers) {
   return send_(std::move(req));
 }
 
-inline Result ClientImpl::Post(const char *path) {
+Result ClientImpl::Post(const char *path) {
   return Post(path, std::string(), nullptr);
 }
 
-inline Result ClientImpl::Post(const char *path, const char *body,
+Result ClientImpl::Post(const char *path, const char *body,
     size_t content_length,
     const char *content_type) {
   return Post(path, Headers(), body, content_length, content_type);
 }
 
-inline Result ClientImpl::Post(const char *path, const Headers &headers,
+Result ClientImpl::Post(const char *path, const Headers &headers,
     const char *body, size_t content_length,
     const char *content_type) {
   return send_with_content_provider("POST", path, headers, body, content_length,
       nullptr, nullptr, content_type);
 }
 
-inline Result ClientImpl::Post(const char *path, const std::string &body,
+Result ClientImpl::Post(const char *path, const std::string &body,
     const char *content_type) {
   return Post(path, Headers(), body, content_type);
 }
 
-inline Result ClientImpl::Post(const char *path, const Headers &headers,
+Result ClientImpl::Post(const char *path, const Headers &headers,
     const std::string &body,
     const char *content_type) {
   return send_with_content_provider("POST", path, headers, body.data(),
@@ -868,24 +868,24 @@ inline Result ClientImpl::Post(const char *path, const Headers &headers,
       content_type);
 }
 
-inline Result ClientImpl::Post(const char *path, const Params &params) {
+Result ClientImpl::Post(const char *path, const Params &params) {
   return Post(path, Headers(), params);
 }
 
-inline Result ClientImpl::Post(const char *path, size_t content_length,
+Result ClientImpl::Post(const char *path, size_t content_length,
     ContentProvider content_provider,
     const char *content_type) {
   return Post(path, Headers(), content_length, std::move(content_provider),
       content_type);
 }
 
-inline Result ClientImpl::Post(const char *path,
+Result ClientImpl::Post(const char *path,
     ContentProviderWithoutLength content_provider,
     const char *content_type) {
   return Post(path, Headers(), std::move(content_provider), content_type);
 }
 
-inline Result ClientImpl::Post(const char *path, const Headers &headers,
+Result ClientImpl::Post(const char *path, const Headers &headers,
     size_t content_length,
     ContentProvider content_provider,
     const char *content_type) {
@@ -894,29 +894,29 @@ inline Result ClientImpl::Post(const char *path, const Headers &headers,
       nullptr, content_type);
 }
 
-inline Result ClientImpl::Post(const char *path, const Headers &headers,
+Result ClientImpl::Post(const char *path, const Headers &headers,
     ContentProviderWithoutLength content_provider,
     const char *content_type) {
   return send_with_content_provider("POST", path, headers, nullptr, 0, nullptr,
       std::move(content_provider), content_type);
 }
 
-inline Result ClientImpl::Post(const char *path, const Headers &headers,
+Result ClientImpl::Post(const char *path, const Headers &headers,
     const Params &params) {
   auto query = detail::params_to_query_str(params);
   return Post(path, headers, query, "application/x-www-form-urlencoded");
 }
 
-inline Result ClientImpl::Post(const char *path,
+Result ClientImpl::Post(const char *path,
     const MultipartFormDataItems &items) {
   return Post(path, Headers(), items);
 }
 
-inline Result ClientImpl::Post(const char *path, const Headers &headers,
+Result ClientImpl::Post(const char *path, const Headers &headers,
     const MultipartFormDataItems &items) {
   return Post(path, headers, items, detail::make_multipart_data_boundary());
 }
-inline Result ClientImpl::Post(const char *path, const Headers &headers,
+Result ClientImpl::Post(const char *path, const Headers &headers,
     const MultipartFormDataItems &items,
     const std::string &boundary) {
   for (size_t i = 0; i < boundary.size(); i++) {
@@ -948,28 +948,28 @@ inline Result ClientImpl::Post(const char *path, const Headers &headers,
   return Post(path, headers, body, content_type.c_str());
 }
 
-inline Result ClientImpl::Put(const char *path) {
+Result ClientImpl::Put(const char *path) {
   return Put(path, std::string(), nullptr);
 }
 
-inline Result ClientImpl::Put(const char *path, const char *body,
+Result ClientImpl::Put(const char *path, const char *body,
     size_t content_length, const char *content_type) {
   return Put(path, Headers(), body, content_length, content_type);
 }
 
-inline Result ClientImpl::Put(const char *path, const Headers &headers,
+Result ClientImpl::Put(const char *path, const Headers &headers,
     const char *body, size_t content_length,
     const char *content_type) {
   return send_with_content_provider("PUT", path, headers, body, content_length,
       nullptr, nullptr, content_type);
 }
 
-inline Result ClientImpl::Put(const char *path, const std::string &body,
+Result ClientImpl::Put(const char *path, const std::string &body,
     const char *content_type) {
   return Put(path, Headers(), body, content_type);
 }
 
-inline Result ClientImpl::Put(const char *path, const Headers &headers,
+Result ClientImpl::Put(const char *path, const Headers &headers,
     const std::string &body,
     const char *content_type) {
   return send_with_content_provider("PUT", path, headers, body.data(),
@@ -977,20 +977,20 @@ inline Result ClientImpl::Put(const char *path, const Headers &headers,
       content_type);
 }
 
-inline Result ClientImpl::Put(const char *path, size_t content_length,
+Result ClientImpl::Put(const char *path, size_t content_length,
     ContentProvider content_provider,
     const char *content_type) {
   return Put(path, Headers(), content_length, std::move(content_provider),
       content_type);
 }
 
-inline Result ClientImpl::Put(const char *path,
+Result ClientImpl::Put(const char *path,
     ContentProviderWithoutLength content_provider,
     const char *content_type) {
   return Put(path, Headers(), std::move(content_provider), content_type);
 }
 
-inline Result ClientImpl::Put(const char *path, const Headers &headers,
+Result ClientImpl::Put(const char *path, const Headers &headers,
     size_t content_length,
     ContentProvider content_provider,
     const char *content_type) {
@@ -999,34 +999,34 @@ inline Result ClientImpl::Put(const char *path, const Headers &headers,
       nullptr, content_type);
 }
 
-inline Result ClientImpl::Put(const char *path, const Headers &headers,
+Result ClientImpl::Put(const char *path, const Headers &headers,
     ContentProviderWithoutLength content_provider,
     const char *content_type) {
   return send_with_content_provider("PUT", path, headers, nullptr, 0, nullptr,
       std::move(content_provider), content_type);
 }
 
-inline Result ClientImpl::Put(const char *path, const Params &params) {
+Result ClientImpl::Put(const char *path, const Params &params) {
   return Put(path, Headers(), params);
 }
 
-inline Result ClientImpl::Put(const char *path, const Headers &headers,
+Result ClientImpl::Put(const char *path, const Headers &headers,
     const Params &params) {
   auto query = detail::params_to_query_str(params);
   return Put(path, headers, query, "application/x-www-form-urlencoded");
 }
 
-inline Result ClientImpl::Patch(const char *path) {
+Result ClientImpl::Patch(const char *path) {
   return Patch(path, std::string(), nullptr);
 }
 
-inline Result ClientImpl::Patch(const char *path, const char *body,
+Result ClientImpl::Patch(const char *path, const char *body,
     size_t content_length,
     const char *content_type) {
   return Patch(path, Headers(), body, content_length, content_type);
 }
 
-inline Result ClientImpl::Patch(const char *path, const Headers &headers,
+Result ClientImpl::Patch(const char *path, const Headers &headers,
     const char *body, size_t content_length,
     const char *content_type) {
   return send_with_content_provider("PATCH", path, headers, body,
@@ -1034,12 +1034,12 @@ inline Result ClientImpl::Patch(const char *path, const Headers &headers,
       content_type);
 }
 
-inline Result ClientImpl::Patch(const char *path, const std::string &body,
+Result ClientImpl::Patch(const char *path, const std::string &body,
     const char *content_type) {
   return Patch(path, Headers(), body, content_type);
 }
 
-inline Result ClientImpl::Patch(const char *path, const Headers &headers,
+Result ClientImpl::Patch(const char *path, const Headers &headers,
     const std::string &body,
     const char *content_type) {
   return send_with_content_provider("PATCH", path, headers, body.data(),
@@ -1047,20 +1047,20 @@ inline Result ClientImpl::Patch(const char *path, const Headers &headers,
       content_type);
 }
 
-inline Result ClientImpl::Patch(const char *path, size_t content_length,
+Result ClientImpl::Patch(const char *path, size_t content_length,
     ContentProvider content_provider,
     const char *content_type) {
   return Patch(path, Headers(), content_length, std::move(content_provider),
       content_type);
 }
 
-inline Result ClientImpl::Patch(const char *path,
+Result ClientImpl::Patch(const char *path,
     ContentProviderWithoutLength content_provider,
     const char *content_type) {
   return Patch(path, Headers(), std::move(content_provider), content_type);
 }
 
-inline Result ClientImpl::Patch(const char *path, const Headers &headers,
+Result ClientImpl::Patch(const char *path, const Headers &headers,
     size_t content_length,
     ContentProvider content_provider,
     const char *content_type) {
@@ -1069,28 +1069,28 @@ inline Result ClientImpl::Patch(const char *path, const Headers &headers,
       nullptr, content_type);
 }
 
-inline Result ClientImpl::Patch(const char *path, const Headers &headers,
+Result ClientImpl::Patch(const char *path, const Headers &headers,
     ContentProviderWithoutLength content_provider,
     const char *content_type) {
   return send_with_content_provider("PATCH", path, headers, nullptr, 0, nullptr,
       std::move(content_provider), content_type);
 }
 
-inline Result ClientImpl::Delete(const char *path) {
+Result ClientImpl::Delete(const char *path) {
   return Delete(path, Headers(), std::string(), nullptr);
 }
 
-inline Result ClientImpl::Delete(const char *path, const Headers &headers) {
+Result ClientImpl::Delete(const char *path, const Headers &headers) {
   return Delete(path, headers, std::string(), nullptr);
 }
 
-inline Result ClientImpl::Delete(const char *path, const char *body,
+Result ClientImpl::Delete(const char *path, const char *body,
     size_t content_length,
     const char *content_type) {
   return Delete(path, Headers(), body, content_length, content_type);
 }
 
-inline Result ClientImpl::Delete(const char *path, const Headers &headers,
+Result ClientImpl::Delete(const char *path, const Headers &headers,
     const char *body, size_t content_length,
     const char *content_type) {
   Request req;
@@ -1104,22 +1104,22 @@ inline Result ClientImpl::Delete(const char *path, const Headers &headers,
   return send_(std::move(req));
 }
 
-inline Result ClientImpl::Delete(const char *path, const std::string &body,
+Result ClientImpl::Delete(const char *path, const std::string &body,
     const char *content_type) {
   return Delete(path, Headers(), body.data(), body.size(), content_type);
 }
 
-inline Result ClientImpl::Delete(const char *path, const Headers &headers,
+Result ClientImpl::Delete(const char *path, const Headers &headers,
     const std::string &body,
     const char *content_type) {
   return Delete(path, headers, body.data(), body.size(), content_type);
 }
 
-inline Result ClientImpl::Options(const char *path) {
+Result ClientImpl::Options(const char *path) {
   return Options(path, Headers());
 }
 
-inline Result ClientImpl::Options(const char *path, const Headers &headers) {
+Result ClientImpl::Options(const char *path, const Headers &headers) {
   Request req;
   req.method = "OPTIONS";
   req.headers = headers;
@@ -1128,12 +1128,12 @@ inline Result ClientImpl::Options(const char *path, const Headers &headers) {
   return send_(std::move(req));
 }
 
-inline size_t ClientImpl::is_socket_open() const {
+size_t ClientImpl::is_socket_open() const {
   std::lock_guard<std::mutex> guard(socket_mutex_);
   return socket_.is_open();
 }
 
-inline void ClientImpl::stop() {
+void ClientImpl::stop() {
   std::lock_guard<std::mutex> guard(socket_mutex_);
 
   // If there is anything ongoing right now, the ONLY thread-safe thing we can
@@ -1156,76 +1156,76 @@ inline void ClientImpl::stop() {
   close_socket(socket_);
 }
 
-inline void ClientImpl::set_connection_timeout(time_t sec, time_t usec) {
+void ClientImpl::set_connection_timeout(time_t sec, time_t usec) {
   connection_timeout_sec_ = sec;
   connection_timeout_usec_ = usec;
 }
 
-inline void ClientImpl::set_read_timeout(time_t sec, time_t usec) {
+void ClientImpl::set_read_timeout(time_t sec, time_t usec) {
   read_timeout_sec_ = sec;
   read_timeout_usec_ = usec;
 }
 
-inline void ClientImpl::set_write_timeout(time_t sec, time_t usec) {
+void ClientImpl::set_write_timeout(time_t sec, time_t usec) {
   write_timeout_sec_ = sec;
   write_timeout_usec_ = usec;
 }
 
-inline void ClientImpl::set_basic_auth(const char *username,
+void ClientImpl::set_basic_auth(const char *username,
     const char *password) {
   basic_auth_username_ = username;
   basic_auth_password_ = password;
 }
 
-inline void ClientImpl::set_bearer_token_auth(const char *token) {
+void ClientImpl::set_bearer_token_auth(const char *token) {
   bearer_token_auth_token_ = token;
 }
 
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-inline void ClientImpl::set_digest_auth(const char *username,
+void ClientImpl::set_digest_auth(const char *username,
     const char *password) {
   digest_auth_username_ = username;
   digest_auth_password_ = password;
 }
 #endif
 
-inline void ClientImpl::set_keep_alive(bool on) { keep_alive_ = on; }
+void ClientImpl::set_keep_alive(bool on) { keep_alive_ = on; }
 
-inline void ClientImpl::set_follow_location(bool on) { follow_location_ = on; }
+void ClientImpl::set_follow_location(bool on) { follow_location_ = on; }
 
-inline void ClientImpl::set_default_headers(Headers headers) {
+void ClientImpl::set_default_headers(Headers headers) {
   default_headers_ = std::move(headers);
 }
 
-inline void ClientImpl::set_tcp_nodelay(bool on) { tcp_nodelay_ = on; }
+void ClientImpl::set_tcp_nodelay(bool on) { tcp_nodelay_ = on; }
 
-inline void ClientImpl::set_socket_options(SocketOptions socket_options) {
+void ClientImpl::set_socket_options(SocketOptions socket_options) {
   socket_options_ = std::move(socket_options);
 }
 
-inline void ClientImpl::set_compress(bool on) { compress_ = on; }
+void ClientImpl::set_compress(bool on) { compress_ = on; }
 
-inline void ClientImpl::set_decompress(bool on) { decompress_ = on; }
+void ClientImpl::set_decompress(bool on) { decompress_ = on; }
 
-inline void ClientImpl::set_interface(const char *intf) { interface_ = intf; }
+void ClientImpl::set_interface(const char *intf) { interface_ = intf; }
 
-inline void ClientImpl::set_proxy(const char *host, int port) {
+void ClientImpl::set_proxy(const char *host, int port) {
   proxy_host_ = host;
   proxy_port_ = port;
 }
 
-inline void ClientImpl::set_proxy_basic_auth(const char *username,
+void ClientImpl::set_proxy_basic_auth(const char *username,
     const char *password) {
   proxy_basic_auth_username_ = username;
   proxy_basic_auth_password_ = password;
 }
 
-inline void ClientImpl::set_proxy_bearer_token_auth(const char *token) {
+void ClientImpl::set_proxy_bearer_token_auth(const char *token) {
   proxy_bearer_token_auth_token_ = token;
 }
 
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-inline void ClientImpl::set_proxy_digest_auth(const char *username,
+void ClientImpl::set_proxy_digest_auth(const char *username,
     const char *password) {
   proxy_digest_auth_username_ = username;
   proxy_digest_auth_password_ = password;
@@ -1233,11 +1233,11 @@ inline void ClientImpl::set_proxy_digest_auth(const char *username,
 #endif
 
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
-inline void ClientImpl::enable_server_certificate_verification(bool enabled) {
+void ClientImpl::enable_server_certificate_verification(bool enabled) {
   server_certificate_verification_ = enabled;
 }
 #endif
 
-inline void ClientImpl::set_logger(Logger logger) {
+void ClientImpl::set_logger(Logger logger) {
   logger_ = std::move(logger);
 }

@@ -7,13 +7,13 @@ using namespace httplib;
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
 
 // SSL HTTP client implementation
-inline SSLClient::SSLClient(const std::string &host)
+SSLClient::SSLClient(const std::string &host)
     : SSLClient(host, 443, std::string(), std::string()) {}
 
-inline SSLClient::SSLClient(const std::string &host, int port)
+SSLClient::SSLClient(const std::string &host, int port)
     : SSLClient(host, port, std::string(), std::string()) {}
 
-inline SSLClient::SSLClient(const std::string &host, int port,
+SSLClient::SSLClient(const std::string &host, int port,
     const std::string &client_cert_path,
     const std::string &client_key_path)
     : ClientImpl(host, port, client_cert_path, client_key_path) {
@@ -34,7 +34,7 @@ inline SSLClient::SSLClient(const std::string &host, int port,
   }
 }
 
-inline SSLClient::SSLClient(const std::string &host, int port,
+SSLClient::SSLClient(const std::string &host, int port,
     X509 *client_cert, EVP_PKEY *client_key)
     : ClientImpl(host, port) {
   ctx_ = SSL_CTX_new(SSLv23_client_method());
@@ -52,7 +52,7 @@ inline SSLClient::SSLClient(const std::string &host, int port,
   }
 }
 
-inline SSLClient::~SSLClient() {
+SSLClient::~SSLClient() {
   if (ctx_) { SSL_CTX_free(ctx_); }
   // Make sure to shut down SSL since shutdown_ssl will resolve to the
   // base function rather than the derived function once we get to the
@@ -60,15 +60,15 @@ inline SSLClient::~SSLClient() {
   SSLClient::shutdown_ssl(socket_, true);
 }
 
-inline bool SSLClient::is_valid() const { return ctx_; }
+bool SSLClient::is_valid() const { return ctx_; }
 
-inline void SSLClient::set_ca_cert_path(const char *ca_cert_file_path,
+void SSLClient::set_ca_cert_path(const char *ca_cert_file_path,
     const char *ca_cert_dir_path) {
   if (ca_cert_file_path) { ca_cert_file_path_ = ca_cert_file_path; }
   if (ca_cert_dir_path) { ca_cert_dir_path_ = ca_cert_dir_path; }
 }
 
-inline void SSLClient::set_ca_cert_store(X509_STORE *ca_cert_store) {
+void SSLClient::set_ca_cert_store(X509_STORE *ca_cert_store) {
   if (ca_cert_store) {
     if (ctx_) {
       if (SSL_CTX_get_cert_store(ctx_) != ca_cert_store) {
@@ -81,18 +81,18 @@ inline void SSLClient::set_ca_cert_store(X509_STORE *ca_cert_store) {
   }
 }
 
-inline long SSLClient::get_openssl_verify_result() const {
+long SSLClient::get_openssl_verify_result() const {
   return verify_result_;
 }
 
-inline SSL_CTX *SSLClient::ssl_context() const { return ctx_; }
+SSL_CTX *SSLClient::ssl_context() const { return ctx_; }
 
-inline bool SSLClient::create_and_connect_socket(Socket &socket, Error &error) {
+bool SSLClient::create_and_connect_socket(Socket &socket, Error &error) {
   return is_valid() && ClientImpl::create_and_connect_socket(socket, error);
 }
 
 // Assumes that socket_mutex_ is locked and that there are no requests in flight
-inline bool SSLClient::connect_with_proxy(Socket &socket, Response &res,
+bool SSLClient::connect_with_proxy(Socket &socket, Response &res,
     bool &success, Error &error) {
   success = true;
   Response res2;
@@ -149,7 +149,7 @@ inline bool SSLClient::connect_with_proxy(Socket &socket, Response &res,
   return true;
 }
 
-inline bool SSLClient::load_certs() {
+bool SSLClient::load_certs() {
   bool ret = true;
 
   std::call_once(initialize_cert_, [&]() {
@@ -176,7 +176,7 @@ inline bool SSLClient::load_certs() {
   return ret;
 }
 
-inline bool SSLClient::initialize_ssl(Socket &socket, Error &error) {
+bool SSLClient::initialize_ssl(Socket &socket, Error &error) {
   auto ssl = detail::ssl_new(
       socket.sock, ctx_, ctx_mutex_,
       [&](SSL *ssl) {
@@ -235,7 +235,7 @@ inline bool SSLClient::initialize_ssl(Socket &socket, Error &error) {
   return false;
 }
 
-inline void SSLClient::shutdown_ssl(Socket &socket, bool shutdown_gracefully) {
+void SSLClient::shutdown_ssl(Socket &socket, bool shutdown_gracefully) {
   if (socket.sock == INVALID_SOCKET) {
     assert(socket.ssl == nullptr);
     return;
@@ -247,7 +247,7 @@ inline void SSLClient::shutdown_ssl(Socket &socket, bool shutdown_gracefully) {
   assert(socket.ssl == nullptr);
 }
 
-inline bool
+bool
 SSLClient::process_socket(const Socket &socket,
     std::function<bool(Stream &strm)> callback) {
   assert(socket.ssl);
@@ -256,9 +256,9 @@ SSLClient::process_socket(const Socket &socket,
       write_timeout_sec_, write_timeout_usec_, std::move(callback));
 }
 
-inline bool SSLClient::is_ssl() const { return true; }
+bool SSLClient::is_ssl() const { return true; }
 
-inline bool SSLClient::verify_host(X509 *server_cert) const {
+bool SSLClient::verify_host(X509 *server_cert) const {
   /* Quote from RFC2818 section 3.1 "Server Identity"
 
      If a subjectAltName extension of type dNSName is present, that MUST
@@ -284,7 +284,7 @@ inline bool SSLClient::verify_host(X509 *server_cert) const {
          verify_host_with_common_name(server_cert);
 }
 
-inline bool
+bool
 SSLClient::verify_host_with_subject_alt_name(X509 *server_cert) const {
   auto ret = false;
 
@@ -339,7 +339,7 @@ SSLClient::verify_host_with_subject_alt_name(X509 *server_cert) const {
   return ret;
 }
 
-inline bool SSLClient::verify_host_with_common_name(X509 *server_cert) const {
+bool SSLClient::verify_host_with_common_name(X509 *server_cert) const {
   const auto subject_name = X509_get_subject_name(server_cert);
 
   if (subject_name != nullptr) {
@@ -355,7 +355,7 @@ inline bool SSLClient::verify_host_with_common_name(X509 *server_cert) const {
   return false;
 }
 
-inline bool SSLClient::check_host_name(const char *pattern,
+bool SSLClient::check_host_name(const char *pattern,
     size_t pattern_len) const {
   if (host_.size() == pattern_len && host_ == pattern) { return true; }
 

@@ -7,7 +7,7 @@ using namespace httplib;
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
 
 // SSL HTTP server implementation
-inline SSLServer::SSLServer(const char *cert_path, const char *private_key_path,
+SSLServer::SSLServer(const char *cert_path, const char *private_key_path,
     const char *client_ca_cert_file_path,
     const char *client_ca_cert_dir_path) {
   ctx_ = SSL_CTX_new(SSLv23_server_method());
@@ -45,7 +45,7 @@ inline SSLServer::SSLServer(const char *cert_path, const char *private_key_path,
   }
 }
 
-inline SSLServer::SSLServer(X509 *cert, EVP_PKEY *private_key,
+SSLServer::SSLServer(X509 *cert, EVP_PKEY *private_key,
     X509_STORE *client_ca_cert_store) {
   ctx_ = SSL_CTX_new(SSLv23_server_method());
 
@@ -72,13 +72,13 @@ inline SSLServer::SSLServer(X509 *cert, EVP_PKEY *private_key,
   }
 }
 
-inline SSLServer::~SSLServer() {
+SSLServer::~SSLServer() {
   if (ctx_) { SSL_CTX_free(ctx_); }
 }
 
-inline bool SSLServer::is_valid() const { return ctx_; }
+bool SSLServer::is_valid() const { return ctx_; }
 
-inline bool SSLServer::process_and_close_socket(socket_t sock) {
+bool SSLServer::process_and_close_socket(socket_t sock) {
   auto ssl = detail::ssl_new(
       sock, ctx_, ctx_mutex_,
       [&](SSL *ssl) {

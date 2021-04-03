@@ -10,16 +10,16 @@ using namespace httplib;
 
 
 // Stream implementation
-inline ssize_t Stream::write(const char *ptr) {
+ssize_t Stream::write(const char *ptr) {
   return write(ptr, std::strlen(ptr));
 }
 
-inline ssize_t Stream::write(const std::string &s) {
+ssize_t Stream::write(const std::string &s) {
   return write(s.data(), s.size());
 }
 
 template <typename... Args>
-inline ssize_t Stream::write_format(const char *fmt, const Args &... args) {
+ssize_t Stream::write_format(const char *fmt, const Args &... args) {
   const auto bufsiz = 2048;
   std::array<char, bufsiz> buf;
 
