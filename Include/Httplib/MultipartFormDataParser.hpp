@@ -3,6 +3,9 @@
 #ifndef HTTPLIB_MULTIPARTFORMDATAPARSER_HPP
 #define HTTPLIB_MULTIPARTFORMDATAPARSER_HPP
 
+#include <Httplib/Util/String.hpp>
+#include <Httplib/Util/RangeOffset.hpp>
+
 namespace httplib {
 
 namespace detail {
