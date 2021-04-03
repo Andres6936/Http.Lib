@@ -8,9 +8,11 @@
 #include <Httplib/Util/Query.hpp>
 #include <Httplib/Util/Decode.hpp>
 #include <Httplib/Util/Encode.hpp>
+#include <Httplib/Util/Boundary.hpp>
 #include <Httplib/Util/Compressor.hpp>
 #include <Httplib/Util/NoCompressor.hpp>
 
+#include <Httplib/Detail/Memory.hpp>
 #include <Httplib/Detail/Header.hpp>
 #include <Httplib/Detail/Content.hpp>
 #include <Httplib/Detail/StatusMessage.hpp>
