@@ -5,6 +5,8 @@
 
 namespace httplib {
 
+namespace detail {
+
 class ContentProviderAdapter {
 public:
   explicit ContentProviderAdapter(
@@ -18,6 +20,9 @@ public:
 private:
   ContentProviderWithoutLength content_provider_;
 };
+
+
+}
 
 } // namespace httplib
 
