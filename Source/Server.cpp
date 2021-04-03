@@ -2,6 +2,14 @@
 
 #include "Httplib/Server.hpp"
 #include <Httplib/ThreadPool.hpp>
+#include <Httplib/BufferStream.hpp>
+#include <Httplib/Util/Query.hpp>
+#include <Httplib/Util/Decode.hpp>
+#include <Httplib/Util/Encode.hpp>
+#include <Httplib/Detail/Header.hpp>
+#include <Httplib/Detail/Content.hpp>
+#include <Httplib/Detail/StatusMessage.hpp>
+#include <Httplib/Detail/Socket/Common.hpp>
 
 using namespace httplib;
 
