@@ -4,13 +4,20 @@
 #include <cassert>
 
 #include "Httplib/ClientImpl.hpp"
-#include <Httplib/Util/Decode.hpp>
+
 #include <Httplib/Detail/Memory.hpp>
 #include <Httplib/Detail/Header.hpp>
 #include <Httplib/Detail/Content.hpp>
+
+#include <Httplib/Util/Decode.hpp>
 #include <Httplib/Util/Navigation.hpp>
+#include <Httplib/Util/Compressor.hpp>
+#include <Httplib/Util/NoCompressor.hpp>
+
 #include <Httplib/StreamLineReader.hpp>
+
 #include <Httplib/Auth/Authentication.hpp>
+
 #include <Httplib/Detail/Socket/Client.hpp>
 #include <Httplib/Detail/Socket/Common.hpp>
 

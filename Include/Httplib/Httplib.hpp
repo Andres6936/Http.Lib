@@ -452,36 +452,11 @@ inline EncodingType encoding_type(const Request &req, const Response &res) {
   return EncodingType::None;
 }
 
-class compressor {
-public:
-  virtual ~compressor(){};
 
-  typedef std::function<bool(const char *data, size_t data_len)> Callback;
-  virtual bool compress(const char *data, size_t data_length, bool last,
-                        Callback callback) = 0;
-};
 
-class decompressor {
-public:
-  virtual ~decompressor() {}
 
-  virtual bool is_valid() const = 0;
 
-  typedef std::function<bool(const char *data, size_t data_len)> Callback;
-  virtual bool decompress(const char *data, size_t data_length,
-                          Callback callback) = 0;
-};
 
-class nocompressor : public compressor {
-public:
-  ~nocompressor(){};
-
-  bool compress(const char *data, size_t data_length, bool /*last*/,
-                Callback callback) override {
-    if (!data_length) { return true; }
-    return callback(data, data_length);
-  }
-};
 
 #ifdef CPPHTTPLIB_BROTLI_SUPPORT
 class brotli_compressor : public compressor {
