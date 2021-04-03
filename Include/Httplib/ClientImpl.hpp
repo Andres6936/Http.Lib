@@ -3,6 +3,7 @@
 #ifndef HTTPLIB_CLIENTIMPL_HPP
 #define HTTPLIB_CLIENTIMPL_HPP
 
+#include <mutex>
 #include <string>
 #include <thread>
 
@@ -17,6 +18,7 @@
 #include <Httplib/Using/Progress.hpp>
 #include <Httplib/Using/SocketOptions.hpp>
 #include <Httplib/Using/ContentReceiver.hpp>
+#include <Httplib/Detail/Socket/Common.hpp>
 
 namespace httplib {
 
