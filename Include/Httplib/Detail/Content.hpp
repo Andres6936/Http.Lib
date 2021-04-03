@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_CONTENT_HPP
 #define HTTPLIB_CONTENT_HPP
 
+#include <Httplib/Util/Decompressor.hpp>
+
 namespace httplib {
 
 namespace detail {
