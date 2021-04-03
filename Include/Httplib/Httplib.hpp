@@ -192,23 +192,7 @@ inline std::string if2ip(const std::string &ifn) {
 }
 #endif
 
-inline void get_remote_ip_and_port(const struct sockaddr_storage &addr,
-                                   socklen_t addr_len, std::string &ip,
-                                   int &port) {
-  if (addr.ss_family == AF_INET) {
-    port = ntohs(reinterpret_cast<const struct sockaddr_in *>(&addr)->sin_port);
-  } else if (addr.ss_family == AF_INET6) {
-    port =
-        ntohs(reinterpret_cast<const struct sockaddr_in6 *>(&addr)->sin6_port);
-  }
 
-  std::array<char, NI_MAXHOST> ipstr{};
-  if (!getnameinfo(reinterpret_cast<const struct sockaddr *>(&addr), addr_len,
-                   ipstr.data(), static_cast<socklen_t>(ipstr.size()), nullptr,
-                   0, NI_NUMERICHOST)) {
-    ip = ipstr.data();
-  }
-}
 
 inline void get_remote_ip_and_port(socket_t sock, std::string &ip, int &port) {
   struct sockaddr_storage addr;
