@@ -236,10 +236,6 @@ private:
 
 
 
-inline bool is_chunked_transfer_encoding(const Headers &headers) {
-  return !strcasecmp(get_header_value(headers, "Transfer-Encoding", 0, ""),
-                     "chunked");
-}
 
 inline std::string to_lower(const char *beg, const char *end) {
   std::string out;

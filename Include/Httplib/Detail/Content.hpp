@@ -151,6 +151,12 @@ bool prepare_content_receiver(T &x, int &status,
   return callback(std::move(out));
 }
 
+inline bool is_chunked_transfer_encoding(const Headers &headers) {
+  return !strcasecmp(get_header_value(headers, "Transfer-Encoding", 0, ""),
+      "chunked");
+}
+
+
 template <typename T>
 bool read_content(Stream &strm, T &x, size_t payload_max_length, int &status,
     Progress progress, ContentReceiverWithProgress receiver,
