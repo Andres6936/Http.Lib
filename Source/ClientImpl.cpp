@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "Httplib/ClientImpl.hpp"
+#include <Httplib/Util/Decode.hpp>
 #include <Httplib/Detail/Memory.hpp>
 #include <Httplib/Detail/Header.hpp>
 #include <Httplib/StreamLineReader.hpp>
