@@ -29,7 +29,7 @@
 using namespace httplib;
 
 // HTTP server implementation
-inline Server::Server()
+Server::Server()
     : new_task_queue(
     [] { return new ThreadPool(CPPHTTPLIB_THREAD_POOL_COUNT); }),
       svr_sock_(INVALID_SOCKET), is_running_(false) {
@@ -38,127 +38,127 @@ inline Server::Server()
 #endif
 }
 
-inline Server::~Server() {}
+Server::~Server() {}
 
-inline Server &Server::Get(const char *pattern, Handler handler) {
+Server &Server::Get(const char *pattern, Handler handler) {
   return Get(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Get(const char *pattern, size_t pattern_len,
+Server &Server::Get(const char *pattern, size_t pattern_len,
     Handler handler) {
   get_handlers_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline Server &Server::Post(const char *pattern, Handler handler) {
+Server &Server::Post(const char *pattern, Handler handler) {
   return Post(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Post(const char *pattern, size_t pattern_len,
+Server &Server::Post(const char *pattern, size_t pattern_len,
     Handler handler) {
   post_handlers_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline Server &Server::Post(const char *pattern,
+Server &Server::Post(const char *pattern,
     HandlerWithContentReader handler) {
   return Post(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Post(const char *pattern, size_t pattern_len,
+Server &Server::Post(const char *pattern, size_t pattern_len,
     HandlerWithContentReader handler) {
   post_handlers_for_content_reader_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline Server &Server::Put(const char *pattern, Handler handler) {
+Server &Server::Put(const char *pattern, Handler handler) {
   return Put(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Put(const char *pattern, size_t pattern_len,
+Server &Server::Put(const char *pattern, size_t pattern_len,
     Handler handler) {
   put_handlers_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline Server &Server::Put(const char *pattern,
+Server &Server::Put(const char *pattern,
     HandlerWithContentReader handler) {
   return Put(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Put(const char *pattern, size_t pattern_len,
+Server &Server::Put(const char *pattern, size_t pattern_len,
     HandlerWithContentReader handler) {
   put_handlers_for_content_reader_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline Server &Server::Patch(const char *pattern, Handler handler) {
+Server &Server::Patch(const char *pattern, Handler handler) {
   return Patch(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Patch(const char *pattern, size_t pattern_len,
+Server &Server::Patch(const char *pattern, size_t pattern_len,
     Handler handler) {
   patch_handlers_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline Server &Server::Patch(const char *pattern,
+Server &Server::Patch(const char *pattern,
     HandlerWithContentReader handler) {
   return Patch(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Patch(const char *pattern, size_t pattern_len,
+Server &Server::Patch(const char *pattern, size_t pattern_len,
     HandlerWithContentReader handler) {
   patch_handlers_for_content_reader_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline Server &Server::Delete(const char *pattern, Handler handler) {
+Server &Server::Delete(const char *pattern, Handler handler) {
   return Delete(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Delete(const char *pattern, size_t pattern_len,
+Server &Server::Delete(const char *pattern, size_t pattern_len,
     Handler handler) {
   delete_handlers_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline Server &Server::Delete(const char *pattern,
+Server &Server::Delete(const char *pattern,
     HandlerWithContentReader handler) {
   return Delete(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Delete(const char *pattern, size_t pattern_len,
+Server &Server::Delete(const char *pattern, size_t pattern_len,
     HandlerWithContentReader handler) {
   delete_handlers_for_content_reader_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline Server &Server::Options(const char *pattern, Handler handler) {
+Server &Server::Options(const char *pattern, Handler handler) {
   return Options(pattern, strlen(pattern), handler);
 }
 
-inline Server &Server::Options(const char *pattern, size_t pattern_len,
+Server &Server::Options(const char *pattern, size_t pattern_len,
     Handler handler) {
   options_handlers_.push_back(
       std::make_pair(std::regex(pattern, pattern_len), std::move(handler)));
   return *this;
 }
 
-inline bool Server::set_base_dir(const char *dir, const char *mount_point) {
+bool Server::set_base_dir(const char *dir, const char *mount_point) {
   return set_mount_point(mount_point, dir);
 }
 
-inline bool Server::set_mount_point(const char *mount_point, const char *dir,
+bool Server::set_mount_point(const char *mount_point, const char *dir,
     Headers headers) {
   if (detail::is_dir(dir)) {
     std::string mnt = mount_point ? mount_point : "/";
@@ -170,7 +170,7 @@ inline bool Server::set_mount_point(const char *mount_point, const char *dir,
   return false;
 }
 
-inline bool Server::remove_mount_point(const char *mount_point) {
+bool Server::remove_mount_point(const char *mount_point) {
   for (auto it = base_dirs_.begin(); it != base_dirs_.end(); ++it) {
     if (it->mount_point == mount_point) {
       base_dirs_.erase(it);
@@ -180,7 +180,7 @@ inline bool Server::remove_mount_point(const char *mount_point) {
   return false;
 }
 
-inline Server &
+Server &
 Server::set_file_extension_and_mimetype_mapping(const char *ext,
     const char *mime) {
   file_extension_and_mimetype_map_[ext] = mime;
@@ -188,18 +188,18 @@ Server::set_file_extension_and_mimetype_mapping(const char *ext,
   return *this;
 }
 
-inline Server &Server::set_file_request_handler(Handler handler) {
+Server &Server::set_file_request_handler(Handler handler) {
   file_request_handler_ = std::move(handler);
 
   return *this;
 }
 
-inline Server &Server::set_error_handler(HandlerWithResponse handler) {
+Server &Server::set_error_handler(HandlerWithResponse handler) {
   error_handler_ = std::move(handler);
   return *this;
 }
 
-inline Server &Server::set_error_handler(Handler handler) {
+Server &Server::set_error_handler(Handler handler) {
   error_handler_ = [handler](const Request &req, Response &res) {
     handler(req, res);
     return HandlerResponse::Handled;
@@ -207,102 +207,102 @@ inline Server &Server::set_error_handler(Handler handler) {
   return *this;
 }
 
-inline Server &Server::set_exception_handler(ExceptionHandler handler) {
+Server &Server::set_exception_handler(ExceptionHandler handler) {
   exception_handler_ = std::move(handler);
   return *this;
 }
 
-inline Server &Server::set_pre_routing_handler(HandlerWithResponse handler) {
+Server &Server::set_pre_routing_handler(HandlerWithResponse handler) {
   pre_routing_handler_ = std::move(handler);
   return *this;
 }
 
-inline Server &Server::set_post_routing_handler(Handler handler) {
+Server &Server::set_post_routing_handler(Handler handler) {
   post_routing_handler_ = std::move(handler);
   return *this;
 }
 
-inline Server &Server::set_logger(Logger logger) {
+Server &Server::set_logger(Logger logger) {
   logger_ = std::move(logger);
 
   return *this;
 }
 
-inline Server &
+Server &
 Server::set_expect_100_continue_handler(Expect100ContinueHandler handler) {
   expect_100_continue_handler_ = std::move(handler);
 
   return *this;
 }
 
-inline Server &Server::set_tcp_nodelay(bool on) {
+Server &Server::set_tcp_nodelay(bool on) {
   tcp_nodelay_ = on;
 
   return *this;
 }
 
-inline Server &Server::set_socket_options(SocketOptions socket_options) {
+Server &Server::set_socket_options(SocketOptions socket_options) {
   socket_options_ = std::move(socket_options);
 
   return *this;
 }
 
-inline Server &Server::set_keep_alive_max_count(size_t count) {
+Server &Server::set_keep_alive_max_count(size_t count) {
   keep_alive_max_count_ = count;
 
   return *this;
 }
 
-inline Server &Server::set_keep_alive_timeout(time_t sec) {
+Server &Server::set_keep_alive_timeout(time_t sec) {
   keep_alive_timeout_sec_ = sec;
 
   return *this;
 }
 
-inline Server &Server::set_read_timeout(time_t sec, time_t usec) {
+Server &Server::set_read_timeout(time_t sec, time_t usec) {
   read_timeout_sec_ = sec;
   read_timeout_usec_ = usec;
 
   return *this;
 }
 
-inline Server &Server::set_write_timeout(time_t sec, time_t usec) {
+Server &Server::set_write_timeout(time_t sec, time_t usec) {
   write_timeout_sec_ = sec;
   write_timeout_usec_ = usec;
 
   return *this;
 }
 
-inline Server &Server::set_idle_interval(time_t sec, time_t usec) {
+Server &Server::set_idle_interval(time_t sec, time_t usec) {
   idle_interval_sec_ = sec;
   idle_interval_usec_ = usec;
 
   return *this;
 }
 
-inline Server &Server::set_payload_max_length(size_t length) {
+Server &Server::set_payload_max_length(size_t length) {
   payload_max_length_ = length;
 
   return *this;
 }
 
-inline bool Server::bind_to_port(const char *host, int port, int socket_flags) {
+bool Server::bind_to_port(const char *host, int port, int socket_flags) {
   if (bind_internal(host, port, socket_flags) < 0) return false;
   return true;
 }
-inline int Server::bind_to_any_port(const char *host, int socket_flags) {
+int Server::bind_to_any_port(const char *host, int socket_flags) {
   return bind_internal(host, 0, socket_flags);
 }
 
-inline bool Server::listen_after_bind() { return listen_internal(); }
+bool Server::listen_after_bind() { return listen_internal(); }
 
-inline bool Server::listen(const char *host, int port, int socket_flags) {
+bool Server::listen(const char *host, int port, int socket_flags) {
   return bind_to_port(host, port, socket_flags) && listen_internal();
 }
 
-inline bool Server::is_running() const { return is_running_; }
+bool Server::is_running() const { return is_running_; }
 
-inline void Server::stop() {
+void Server::stop() {
   if (is_running_) {
     assert(svr_sock_ != INVALID_SOCKET);
     std::atomic<socket_t> sock(svr_sock_.exchange(INVALID_SOCKET));
@@ -311,7 +311,7 @@ inline void Server::stop() {
   }
 }
 
-inline bool Server::parse_request_line(const char *s, Request &req) {
+bool Server::parse_request_line(const char *s, Request &req) {
   const static std::regex re(
       "(GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|TRACE|PATCH|PRI) "
       "(([^? ]+)(?:\\?([^ ]*?))?) (HTTP/1\\.[01])\r\n");
@@ -333,19 +333,19 @@ inline bool Server::parse_request_line(const char *s, Request &req) {
   return false;
 }
 
-inline bool Server::write_response(Stream &strm, bool close_connection,
+bool Server::write_response(Stream &strm, bool close_connection,
     const Request &req, Response &res) {
   return write_response_core(strm, close_connection, req, res, false);
 }
 
-inline bool Server::write_response_with_content(Stream &strm,
+bool Server::write_response_with_content(Stream &strm,
     bool close_connection,
     const Request &req,
     Response &res) {
   return write_response_core(strm, close_connection, req, res, true);
 }
 
-inline bool Server::write_response_core(Stream &strm, bool close_connection,
+bool Server::write_response_core(Stream &strm, bool close_connection,
     const Request &req, Response &res,
     bool need_apply_ranges) {
   assert(res.status != -1);
@@ -421,7 +421,7 @@ inline bool Server::write_response_core(Stream &strm, bool close_connection,
 }
 
 
-inline bool
+bool
 Server::write_content_with_provider(Stream &strm, const Request &req,
     Response &res, const std::string &boundary,
     const std::string &content_type) {
@@ -471,7 +471,7 @@ Server::write_content_with_provider(Stream &strm, const Request &req,
   }
 }
 
-inline bool Server::read_content(Stream &strm, Request &req, Response &res) {
+bool Server::read_content(Stream &strm, Request &req, Response &res) {
   MultipartFormDataMap::iterator cur;
   if (read_content_core(
       strm, req, res,
@@ -501,7 +501,7 @@ inline bool Server::read_content(Stream &strm, Request &req, Response &res) {
   return false;
 }
 
-inline bool Server::read_content_with_content_receiver(
+bool Server::read_content_with_content_receiver(
     Stream &strm, Request &req, Response &res, ContentReceiver receiver,
     MultipartContentHeader multipart_header,
     ContentReceiver multipart_receiver) {
@@ -510,7 +510,7 @@ inline bool Server::read_content_with_content_receiver(
       std::move(multipart_receiver));
 }
 
-inline bool Server::read_content_core(Stream &strm, Request &req, Response &res,
+bool Server::read_content_core(Stream &strm, Request &req, Response &res,
     ContentReceiver receiver,
     MultipartContentHeader mulitpart_header,
     ContentReceiver multipart_receiver) {
@@ -565,7 +565,7 @@ inline bool Server::read_content_core(Stream &strm, Request &req, Response &res,
   return true;
 }
 
-inline bool Server::handle_file_request(const Request &req, Response &res,
+bool Server::handle_file_request(const Request &req, Response &res,
     bool head) {
   for (const auto &entry : base_dirs_) {
     // Prefix match
@@ -595,7 +595,7 @@ inline bool Server::handle_file_request(const Request &req, Response &res,
   return false;
 }
 
-inline socket_t
+socket_t
 Server::create_server_socket(const char *host, int port, int socket_flags,
     SocketOptions socket_options) const {
   return detail::create_socket(
@@ -611,7 +611,7 @@ Server::create_server_socket(const char *host, int port, int socket_flags,
       });
 }
 
-inline int Server::bind_internal(const char *host, int port, int socket_flags) {
+int Server::bind_internal(const char *host, int port, int socket_flags) {
   if (!is_valid()) { return -1; }
 
   svr_sock_ = create_server_socket(host, port, socket_flags, socket_options_);
@@ -636,7 +636,7 @@ inline int Server::bind_internal(const char *host, int port, int socket_flags) {
   }
 }
 
-inline bool Server::listen_internal() {
+bool Server::listen_internal() {
   auto ret = true;
   is_running_ = true;
 
@@ -688,7 +688,7 @@ inline bool Server::listen_internal() {
   return ret;
 }
 
-inline bool Server::routing(Request &req, Response &res, Stream &strm) {
+bool Server::routing(Request &req, Response &res, Stream &strm) {
   if (pre_routing_handler_ &&
       pre_routing_handler_(req, res) == HandlerResponse::Handled) {
     return true;
@@ -765,7 +765,7 @@ inline bool Server::routing(Request &req, Response &res, Stream &strm) {
   return false;
 }
 
-inline bool Server::dispatch_request(Request &req, Response &res,
+bool Server::dispatch_request(Request &req, Response &res,
     const Handlers &handlers) {
   for (const auto &x : handlers) {
     const auto &pattern = x.first;
@@ -779,7 +779,7 @@ inline bool Server::dispatch_request(Request &req, Response &res,
   return false;
 }
 
-inline void Server::apply_ranges(const Request &req, Response &res,
+void Server::apply_ranges(const Request &req, Response &res,
     std::string &content_type,
     std::string &boundary) {
   if (req.ranges.size() > 1) {
@@ -889,7 +889,7 @@ inline void Server::apply_ranges(const Request &req, Response &res,
   }
 }
 
-inline bool Server::dispatch_request_for_content_reader(
+bool Server::dispatch_request_for_content_reader(
     Request &req, Response &res, ContentReader content_reader,
     const HandlersForContentReader &handlers) {
   for (const auto &x : handlers) {
@@ -904,7 +904,7 @@ inline bool Server::dispatch_request_for_content_reader(
   return false;
 }
 
-inline bool
+bool
 Server::process_request(Stream &strm, bool close_connection,
     bool &connection_closed,
     const std::function<void(Request &)> &setup_request) {
@@ -1013,9 +1013,9 @@ Server::process_request(Stream &strm, bool close_connection,
   }
 }
 
-inline bool Server::is_valid() const { return true; }
+bool Server::is_valid() const { return true; }
 
-inline bool Server::process_and_close_socket(socket_t sock) {
+bool Server::process_and_close_socket(socket_t sock) {
   auto ret = detail::process_server_socket(
       sock, keep_alive_max_count_, keep_alive_timeout_sec_, read_timeout_sec_,
       read_timeout_usec_, write_timeout_sec_, write_timeout_usec_,
