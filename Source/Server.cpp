@@ -4,6 +4,7 @@
 #include <Httplib/ThreadPool.hpp>
 #include <Httplib/BufferStream.hpp>
 #include <Httplib/Configuration.hpp>
+#include <Httplib/StreamLineReader.hpp>
 #include <Httplib/MultipartFormDataParser.hpp>
 
 #include <Httplib/Util/IO.hpp>
