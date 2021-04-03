@@ -12,6 +12,7 @@
 #include <Httplib/Util/Encode.hpp>
 #include <Httplib/Util/Boundary.hpp>
 #include <Httplib/Util/Compressor.hpp>
+#include <Httplib/Util/RangeOffset.hpp>
 #include <Httplib/Util/NoCompressor.hpp>
 
 #include <Httplib/Detail/Memory.hpp>
