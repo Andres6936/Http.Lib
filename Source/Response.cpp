@@ -3,7 +3,9 @@
 #include <cassert>
 
 #include "Httplib/Response.hpp"
+#include <Httplib/Util/String.hpp>
 #include <Httplib/Detail/Header.hpp>
+#include <Httplib/ContentProviderAdapter.hpp>
 
 using namespace httplib;
 

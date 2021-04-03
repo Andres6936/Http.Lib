@@ -703,14 +703,7 @@ inline bool expect_content(const Request &req) {
   return false;
 }
 
-inline bool has_crlf(const char *s) {
-  auto p = s;
-  while (*p) {
-    if (*p == '\r' || *p == '\n') { return true; }
-    p++;
-  }
-  return false;
-}
+
 
 #ifdef CPPHTTPLIB_OPENSSL_SUPPORT
 template <typename CTX, typename Init, typename Update, typename Final>
