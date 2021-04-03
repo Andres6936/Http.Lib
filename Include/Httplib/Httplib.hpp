@@ -564,15 +564,6 @@ inline bool is_chunked_transfer_encoding(const Headers &headers) {
 
 
 
-inline bool write_data(Stream &strm, const char *d, size_t l) {
-  size_t offset = 0;
-  while (offset < l) {
-    auto length = strm.write(d + offset, l - offset);
-    if (length < 0) { return false; }
-    offset += static_cast<size_t>(length);
-  }
-  return true;
-}
 
 
 
