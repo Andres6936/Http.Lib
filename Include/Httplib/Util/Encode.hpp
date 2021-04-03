@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_ENCODE_HPP
 #define HTTPLIB_ENCODE_HPP
 
+#include <iomanip>
+
 namespace httplib {
 
 namespace detail {

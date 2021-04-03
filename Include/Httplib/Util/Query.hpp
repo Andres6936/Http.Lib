@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_QUERY_HPP
 #define HTTPLIB_QUERY_HPP
 
+#include <Httplib/Util/Encode.hpp>
+
 namespace httplib {
 
 namespace detail {
