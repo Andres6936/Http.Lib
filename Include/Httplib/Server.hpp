@@ -14,7 +14,7 @@
 #include <Httplib/TaskQueue.hpp>
 #include <Httplib/Using/Logger.hpp>
 #include <Httplib/Using/SocketOptions.hpp>
-
+#include <Httplib/Detail/Socket/Common.hpp>
 
 namespace httplib {
 
@@ -198,7 +198,7 @@ private:
   Expect100ContinueHandler expect_100_continue_handler_;
 
   bool tcp_nodelay_ = CPPHTTPLIB_TCP_NODELAY;
-  SocketOptions socket_options_ = default_socket_options;
+  SocketOptions socket_options_ = detail::default_socket_options;
 };
 
 } // namespace httplib
