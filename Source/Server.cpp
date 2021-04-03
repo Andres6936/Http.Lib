@@ -21,6 +21,7 @@
 #include <Httplib/Detail/Header.hpp>
 #include <Httplib/Detail/Content.hpp>
 #include <Httplib/Detail/StatusMessage.hpp>
+#include <Httplib/Detail/Socket/Server.hpp>
 #include <Httplib/Detail/Socket/Common.hpp>
 
 #include <Httplib/Enum/EncodingType.hpp>

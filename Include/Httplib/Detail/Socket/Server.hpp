@@ -1,7 +1,6 @@
 // Joan Andrés (@Andres6936) Github.
 
-#ifndef HTTPLIB_SERVER_HPP
-#define HTTPLIB_SERVER_HPP
+#pragma once
 
 namespace httplib {
 
@@ -44,4 +43,3 @@ process_server_socket(socket_t sock, size_t keep_alive_max_count,
 
 } // namespace httplib
 
-#endif // HTTPLIB_SERVER_HPP
