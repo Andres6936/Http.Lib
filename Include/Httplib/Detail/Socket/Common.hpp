@@ -397,16 +397,6 @@ inline void default_socket_options(socket_t sock) {
 #endif
 }
 
-inline void get_remote_ip_and_port(socket_t sock, std::string &ip, int &port) {
-  struct sockaddr_storage addr;
-  socklen_t addr_len = sizeof(addr);
-
-  if (!getpeername(sock, reinterpret_cast<struct sockaddr *>(&addr),
-      &addr_len)) {
-    get_remote_ip_and_port(addr, addr_len, ip, port);
-  }
-}
-
 inline void get_remote_ip_and_port(const struct sockaddr_storage &addr,
     socklen_t addr_len, std::string &ip,
     int &port) {
@@ -422,6 +412,16 @@ inline void get_remote_ip_and_port(const struct sockaddr_storage &addr,
       ipstr.data(), static_cast<socklen_t>(ipstr.size()), nullptr,
       0, NI_NUMERICHOST)) {
     ip = ipstr.data();
+  }
+}
+
+inline void get_remote_ip_and_port(socket_t sock, std::string &ip, int &port) {
+  struct sockaddr_storage addr;
+  socklen_t addr_len = sizeof(addr);
+
+  if (!getpeername(sock, reinterpret_cast<struct sockaddr *>(&addr),
+      &addr_len)) {
+    get_remote_ip_and_port(addr, addr_len, ip, port);
   }
 }
 
