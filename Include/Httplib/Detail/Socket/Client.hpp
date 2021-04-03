@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_CLIENT_HPP
 #define HTTPLIB_CLIENT_HPP
 
+#include <Httplib/SocketStream.hpp>
+
 namespace httplib {
 
 namespace detail {

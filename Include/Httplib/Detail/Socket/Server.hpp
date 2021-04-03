@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include <Httplib/SocketStream.hpp>
+#include <Httplib/Detail/Socket/Common.hpp>
+
 namespace httplib {
 
 namespace detail {
