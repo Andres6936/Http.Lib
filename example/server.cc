@@ -5,9 +5,14 @@
 //  MIT License
 //
 
-#include <Httplib.h>
+#include <Httplib/Server.hpp>
+#include <Httplib/Headers.hpp>
+#include <Httplib/Request.hpp>
+#include <Httplib/Response.hpp>
+
 #include <chrono>
 #include <cstdio>
+#include <thread>
 
 #define SERVER_CERT_FILE "./cert.pem"
 #define SERVER_PRIVATE_KEY_FILE "./key.pem"
