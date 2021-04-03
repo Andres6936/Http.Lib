@@ -3,6 +3,9 @@
 #ifndef HTTPLIB_DECODE_HPP
 #define HTTPLIB_DECODE_HPP
 
+#include <Httplib/Util/String.hpp>
+#include <Httplib/Util/Hexadecimal.hpp>
+
 namespace httplib {
 
 namespace detail {
