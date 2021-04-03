@@ -1,9 +1,11 @@
 // Joan Andrés (@Andres6936) Github.
 
 #include "Httplib/SocketStream.hpp"
+#include <Httplib/Configuration.hpp>
+#include <Httplib/Detail/Socket/Common.hpp>
 
 using namespace httplib;
-
+using namespace detail;
 
 // Socket stream implementation
 inline SocketStream::SocketStream(socket_t sock, time_t read_timeout_sec,
