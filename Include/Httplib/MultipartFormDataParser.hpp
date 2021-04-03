@@ -5,6 +5,8 @@
 
 namespace httplib {
 
+namespace detail {
+
 
 class MultipartFormDataParser {
 public:
@@ -200,6 +202,96 @@ private:
   size_t off_ = 0;
   MultipartFormData file_;
 };
+
+template <typename SToken, typename CToken, typename Content>
+bool process_multipart_ranges_data(const Request &req, Response &res,
+    const std::string &boundary,
+    const std::string &content_type,
+    SToken stoken, CToken ctoken,
+    Content content) {
+  for (size_t i = 0; i < req.ranges.size(); i++) {
+    ctoken("--");
+    stoken(boundary);
+    ctoken("\r\n");
+    if (!content_type.empty()) {
+      ctoken("Content-Type: ");
+      stoken(content_type);
+      ctoken("\r\n");
+    }
+
+    auto offsets = get_range_offset_and_length(req, res.body.size(), i);
+    auto offset = offsets.first;
+    auto length = offsets.second;
+
+    ctoken("Content-Range: ");
+    stoken(make_content_range_header_field(offset, length, res.body.size()));
+    ctoken("\r\n");
+    ctoken("\r\n");
+    if (!content(offset, length)) { return false; }
+    ctoken("\r\n");
+  }
+
+  ctoken("--");
+  stoken(boundary);
+  ctoken("--\r\n");
+
+  return true;
+}
+
+template <typename T>
+inline bool write_multipart_ranges_data(Stream &strm, const Request &req,
+    Response &res,
+    const std::string &boundary,
+    const std::string &content_type,
+    const T &is_shutting_down) {
+  return process_multipart_ranges_data(
+      req, res, boundary, content_type,
+      [&](const std::string &token) { strm.write(token); },
+      [&](const char *token) { strm.write(token); },
+      [&](size_t offset, size_t length) {
+        return write_content(strm, res.content_provider_, offset, length,
+            is_shutting_down);
+      });
+}
+
+inline bool make_multipart_ranges_data(const Request &req, Response &res,
+    const std::string &boundary,
+    const std::string &content_type,
+    std::string &data) {
+  return process_multipart_ranges_data(
+      req, res, boundary, content_type,
+      [&](const std::string &token) { data += token; },
+      [&](const char *token) { data += token; },
+      [&](size_t offset, size_t length) {
+        if (offset < res.body.size()) {
+          data += res.body.substr(offset, length);
+          return true;
+        }
+        return false;
+      });
+}
+
+
+inline size_t
+get_multipart_ranges_data_length(const Request &req, Response &res,
+    const std::string &boundary,
+    const std::string &content_type) {
+  size_t data_length = 0;
+
+  process_multipart_ranges_data(
+      req, res, boundary, content_type,
+      [&](const std::string &token) { data_length += token.size(); },
+      [&](const char *token) { data_length += strlen(token); },
+      [&](size_t /*offset*/, size_t length) {
+        data_length += length;
+        return true;
+      });
+
+  return data_length;
+}
+
+
+}
 
 } // namespace httplib
 

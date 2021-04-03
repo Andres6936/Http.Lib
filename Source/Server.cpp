@@ -2,6 +2,8 @@
 
 #include "Httplib/Server.hpp"
 #include <Httplib/ThreadPool.hpp>
+#include <Httplib/MultipartFormDataParser.hpp>
+
 #include <Httplib/BufferStream.hpp>
 #include <Httplib/Util/Query.hpp>
 #include <Httplib/Util/Decode.hpp>
