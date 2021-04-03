@@ -1,10 +1,10 @@
 // Joan Andrés (@Andres6936) Github.
 
-#include "httplib/Server.hpp"
+#include "Httplib/SSL/Server.hpp"
 
 using namespace httplib;
 
-
+#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
 
 // SSL HTTP server implementation
 inline SSLServer::SSLServer(const char *cert_path, const char *private_key_path,
@@ -109,3 +109,5 @@ inline bool SSLServer::process_and_close_socket(socket_t sock) {
   detail::close_socket(sock);
   return ret;
 }
+
+#endif

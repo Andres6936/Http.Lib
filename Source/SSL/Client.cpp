@@ -1,9 +1,10 @@
 // Joan Andrés (@Andres6936) Github.
 
-#include "httplib/Client.hpp"
+#include "Httplib/SSL/Client.hpp"
 
 using namespace httplib;
 
+#ifdef CPPHTTPLIB_OPENSSL_SUPPORT
 
 // SSL HTTP client implementation
 inline SSLClient::SSLClient(const std::string &host)
@@ -381,3 +382,5 @@ inline bool SSLClient::check_host_name(const char *pattern,
 
   return true;
 }
+
+#endif
