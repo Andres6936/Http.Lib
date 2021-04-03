@@ -9,6 +9,8 @@
 
 namespace httplib {
 
+namespace detail {
+
 class BufferStream : public Stream {
 public:
   BufferStream() = default;
@@ -27,6 +29,8 @@ private:
   std::string buffer;
   size_t position = 0;
 };
+
+}
 
 } // namespace httplib
 

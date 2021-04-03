@@ -3,7 +3,7 @@
 #include "Httplib/BufferStream.hpp"
 
 using namespace httplib;
-
+using namespace detail;
 
 // Buffer stream implementation
 inline bool BufferStream::is_readable() const { return true; }
