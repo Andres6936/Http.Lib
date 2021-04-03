@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_COMMON_HPP
 #define HTTPLIB_COMMON_HPP
 
+#include <thread>
+#include <chrono>
 
 #include <Httplib/Using/SocketType.hpp>
 
