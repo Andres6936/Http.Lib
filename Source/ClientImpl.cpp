@@ -8,6 +8,7 @@
 #include <Httplib/Detail/Memory.hpp>
 #include <Httplib/Detail/Header.hpp>
 #include <Httplib/Detail/Content.hpp>
+#include <Httplib/Util/Navigation.hpp>
 #include <Httplib/StreamLineReader.hpp>
 #include <Httplib/Auth/Authentication.hpp>
 #include <Httplib/Detail/Socket/Client.hpp>

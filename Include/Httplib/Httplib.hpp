@@ -601,30 +601,7 @@ inline bool write_data(Stream &strm, const char *d, size_t l) {
 
 
 
-template <typename T>
-inline bool redirect(T &cli, Request &req, Response &res,
-                     const std::string &path, const std::string &location,
-                     Error &error) {
-  Request new_req = req;
-  new_req.path = path;
-  new_req.redirect_count_ -= 1;
 
-  if (res.status == 303 && (req.method != "GET" && req.method != "HEAD")) {
-    new_req.method = "GET";
-    new_req.body.clear();
-    new_req.headers.clear();
-  }
-
-  Response new_res;
-
-  auto ret = cli.send(new_req, new_res, error);
-  if (ret) {
-    req = new_req;
-    res = new_res;
-    res.location = location;
-  }
-  return ret;
-}
 
 inline std::string params_to_query_str(const Params &params) {
   std::string query;
