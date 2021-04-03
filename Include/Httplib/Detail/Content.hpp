@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_CONTENT_HPP
 #define HTTPLIB_CONTENT_HPP
 
+#include <Httplib/Enum/Error.hpp>
+#include <Httplib/Detail/Header.hpp>
 #include <Httplib/Util/Decompressor.hpp>
 
 namespace httplib {
