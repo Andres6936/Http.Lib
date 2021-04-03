@@ -5,6 +5,7 @@
 
 #include <Httplib/Util/String.hpp>
 #include <Httplib/Util/RangeOffset.hpp>
+#include <Httplib/Detail/Content.hpp>
 
 namespace httplib {
 
