@@ -8,10 +8,14 @@
 #include <Httplib/Util/Query.hpp>
 #include <Httplib/Util/Decode.hpp>
 #include <Httplib/Util/Encode.hpp>
+#include <Httplib/Util/Compressor.hpp>
+#include <Httplib/Util/NoCompressor.hpp>
+
 #include <Httplib/Detail/Header.hpp>
 #include <Httplib/Detail/Content.hpp>
 #include <Httplib/Detail/StatusMessage.hpp>
 #include <Httplib/Detail/Socket/Common.hpp>
+
 #include <Httplib/Enum/EncodingType.hpp>
 
 using namespace httplib;
