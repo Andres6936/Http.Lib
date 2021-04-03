@@ -14,6 +14,7 @@
 #include <Httplib/Util/Query.hpp>
 #include <Httplib/Util/Encode.hpp>
 #include <Httplib/Util/Decode.hpp>
+#include <Httplib/Util/Boundary.hpp>
 #include <Httplib/Util/Navigation.hpp>
 #include <Httplib/Util/Compressor.hpp>
 #include <Httplib/Util/NoCompressor.hpp>
