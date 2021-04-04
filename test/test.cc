@@ -4,6 +4,7 @@
 #include <Httplib/Request.hpp>
 #include <Httplib/Response.hpp>
 #include <Httplib/BufferStream.hpp>
+#include <Httplib/MultipartFormData.hpp>
 
 #include <Httplib/Util/IO.hpp>
 #include <Httplib/Util/Query.hpp>
@@ -12,8 +13,8 @@
 #include <Httplib/Util/String.hpp>
 
 #include <Httplib/Detail/Header.hpp>
-
 #include <Httplib/Enum/EncodingType.hpp>
+#include <Httplib/Auth/Authentication.hpp>
 
 #include <gtest/gtest.h>
 
