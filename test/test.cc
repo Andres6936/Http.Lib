@@ -196,37 +196,37 @@ TEST(GetHeaderValueTest, RegularValueInt) {
 
 TEST(GetHeaderValueTest, Range) {
   {
-    Headers headers = {make_range_header({{1, -1}})};
+    Headers headers = {detail::make_range_header({{1, -1}})};
     auto val = detail::get_header_value(headers, "Range", 0, 0);
     EXPECT_STREQ("bytes=1-", val);
   }
 
   {
-    Headers headers = {make_range_header({{-1, 1}})};
+    Headers headers = {detail::make_range_header({{-1, 1}})};
     auto val = detail::get_header_value(headers, "Range", 0, 0);
     EXPECT_STREQ("bytes=-1", val);
   }
 
   {
-    Headers headers = {make_range_header({{1, 10}})};
+    Headers headers = {detail::make_range_header({{1, 10}})};
     auto val = detail::get_header_value(headers, "Range", 0, 0);
     EXPECT_STREQ("bytes=1-10", val);
   }
 
   {
-    Headers headers = {make_range_header({{1, 10}, {100, -1}})};
+    Headers headers = {detail::make_range_header({{1, 10}, {100, -1}})};
     auto val = detail::get_header_value(headers, "Range", 0, 0);
     EXPECT_STREQ("bytes=1-10, 100-", val);
   }
 
   {
-    Headers headers = {make_range_header({{1, 10}, {100, 200}})};
+    Headers headers = {detail::make_range_header({{1, 10}, {100, 200}})};
     auto val = detail::get_header_value(headers, "Range", 0, 0);
     EXPECT_STREQ("bytes=1-10, 100-200", val);
   }
 
   {
-    Headers headers = {make_range_header({{0, 0}, {-1, 1}})};
+    Headers headers = {detail::make_range_header({{0, 0}, {-1, 1}})};
     auto val = detail::get_header_value(headers, "Range", 0, 0);
     EXPECT_STREQ("bytes=0-0, -1", val);
   }
@@ -450,7 +450,7 @@ TEST(ChunkedEncodingTest, WithResponseHandlerAndContentReceiver) {
 
 TEST(DefaultHeadersTest, FromHTTPBin) {
   Client cli("httpbin.org");
-  cli.set_default_headers({make_range_header({{1, 10}})});
+  cli.set_default_headers({detail::make_range_header({{1, 10}})});
   cli.set_connection_timeout(5);
 
   {
@@ -488,7 +488,7 @@ TEST(RangeTest, FromHTTPBin) {
   }
 
   {
-    Headers headers = {make_range_header({{1, -1}})};
+    Headers headers = {detail::make_range_header({{1, -1}})};
     auto res = cli.Get("/range/32", headers);
     ASSERT_TRUE(res);
     EXPECT_EQ("bcdefghijklmnopqrstuvwxyzabcdef", res->body);
@@ -496,7 +496,7 @@ TEST(RangeTest, FromHTTPBin) {
   }
 
   {
-    Headers headers = {make_range_header({{1, 10}})};
+    Headers headers = {detail::make_range_header({{1, 10}})};
     auto res = cli.Get("/range/32", headers);
     ASSERT_TRUE(res);
     EXPECT_EQ("bcdefghijk", res->body);
@@ -504,7 +504,7 @@ TEST(RangeTest, FromHTTPBin) {
   }
 
   {
-    Headers headers = {make_range_header({{0, 31}})};
+    Headers headers = {detail::make_range_header({{0, 31}})};
     auto res = cli.Get("/range/32", headers);
     ASSERT_TRUE(res);
     EXPECT_EQ("abcdefghijklmnopqrstuvwxyzabcdef", res->body);
@@ -512,7 +512,7 @@ TEST(RangeTest, FromHTTPBin) {
   }
 
   {
-    Headers headers = {make_range_header({{0, -1}})};
+    Headers headers = {detail::make_range_header({{0, -1}})};
     auto res = cli.Get("/range/32", headers);
     ASSERT_TRUE(res);
     EXPECT_EQ("abcdefghijklmnopqrstuvwxyzabcdef", res->body);
@@ -520,7 +520,7 @@ TEST(RangeTest, FromHTTPBin) {
   }
 
   {
-    Headers headers = {make_range_header({{0, 32}})};
+    Headers headers = {detail::make_range_header({{0, 32}})};
     auto res = cli.Get("/range/32", headers);
     ASSERT_TRUE(res);
     EXPECT_EQ(416, res->status);
@@ -1926,7 +1926,7 @@ TEST_F(ServerTest, UserDefinedMIMETypeMapping) {
 }
 
 TEST_F(ServerTest, StaticFileRange) {
-  auto res = cli_.Get("/dir/test.abcde", {{make_range_header({{2, 3}})}});
+  auto res = cli_.Get("/dir/test.abcde", {{detail::make_range_header({{2, 3}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("text/abcde", res->get_header_value("Content-Type"));
@@ -2229,7 +2229,7 @@ TEST_F(ServerTest, CaseInsensitiveTransferEncoding) {
 }
 
 TEST_F(ServerTest, GetStreamed2) {
-  auto res = cli_.Get("/streamed", {{make_range_header({{2, 3}})}});
+  auto res = cli_.Get("/streamed", {{detail::make_range_header({{2, 3}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("2", res->get_header_value("Content-Length"));
@@ -2245,7 +2245,7 @@ TEST_F(ServerTest, GetStreamed) {
 }
 
 TEST_F(ServerTest, GetStreamedWithRange1) {
-  auto res = cli_.Get("/streamed-with-range", {{make_range_header({{3, 5}})}});
+  auto res = cli_.Get("/streamed-with-range", {{detail::make_range_header({{3, 5}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("3", res->get_header_value("Content-Length"));
@@ -2254,7 +2254,7 @@ TEST_F(ServerTest, GetStreamedWithRange1) {
 }
 
 TEST_F(ServerTest, GetStreamedWithRange2) {
-  auto res = cli_.Get("/streamed-with-range", {{make_range_header({{1, -1}})}});
+  auto res = cli_.Get("/streamed-with-range", {{detail::make_range_header({{1, -1}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("6", res->get_header_value("Content-Length"));
@@ -2299,7 +2299,7 @@ TEST_F(ServerTest, GetRangeWithMaxLongLength) {
 
 TEST_F(ServerTest, GetStreamedWithRangeMultipart) {
   auto res =
-      cli_.Get("/streamed-with-range", {{make_range_header({{1, 2}, {4, 5}})}});
+      cli_.Get("/streamed-with-range", {{detail::make_range_header({{1, 2}, {4, 5}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("269", res->get_header_value("Content-Length"));
@@ -2344,7 +2344,7 @@ TEST_F(ServerTest, ClientStop) {
 }
 
 TEST_F(ServerTest, GetWithRange1) {
-  auto res = cli_.Get("/with-range", {{make_range_header({{3, 5}})}});
+  auto res = cli_.Get("/with-range", {{detail::make_range_header({{3, 5}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("3", res->get_header_value("Content-Length"));
@@ -2353,7 +2353,7 @@ TEST_F(ServerTest, GetWithRange1) {
 }
 
 TEST_F(ServerTest, GetWithRange2) {
-  auto res = cli_.Get("/with-range", {{make_range_header({{1, -1}})}});
+  auto res = cli_.Get("/with-range", {{detail::make_range_header({{1, -1}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("6", res->get_header_value("Content-Length"));
@@ -2362,7 +2362,7 @@ TEST_F(ServerTest, GetWithRange2) {
 }
 
 TEST_F(ServerTest, GetWithRange3) {
-  auto res = cli_.Get("/with-range", {{make_range_header({{0, 0}})}});
+  auto res = cli_.Get("/with-range", {{detail::make_range_header({{0, 0}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("1", res->get_header_value("Content-Length"));
@@ -2371,7 +2371,7 @@ TEST_F(ServerTest, GetWithRange3) {
 }
 
 TEST_F(ServerTest, GetWithRange4) {
-  auto res = cli_.Get("/with-range", {{make_range_header({{-1, 2}})}});
+  auto res = cli_.Get("/with-range", {{detail::make_range_header({{-1, 2}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("2", res->get_header_value("Content-Length"));
@@ -2380,13 +2380,13 @@ TEST_F(ServerTest, GetWithRange4) {
 }
 
 TEST_F(ServerTest, GetWithRangeOffsetGreaterThanContent) {
-  auto res = cli_.Get("/with-range", {{make_range_header({{10000, 20000}})}});
+  auto res = cli_.Get("/with-range", {{detail::make_range_header({{10000, 20000}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(416, res->status);
 }
 
 TEST_F(ServerTest, GetWithRangeMultipart) {
-  auto res = cli_.Get("/with-range", {{make_range_header({{1, 2}, {4, 5}})}});
+  auto res = cli_.Get("/with-range", {{detail::make_range_header({{1, 2}, {4, 5}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(206, res->status);
   EXPECT_EQ("269", res->get_header_value("Content-Length"));
@@ -2396,7 +2396,7 @@ TEST_F(ServerTest, GetWithRangeMultipart) {
 
 TEST_F(ServerTest, GetWithRangeMultipartOffsetGreaterThanContent) {
   auto res =
-      cli_.Get("/with-range", {{make_range_header({{-1, 2}, {10000, 30000}})}});
+      cli_.Get("/with-range", {{detail::make_range_header({{-1, 2}, {10000, 30000}})}});
   ASSERT_TRUE(res);
   EXPECT_EQ(416, res->status);
 }
