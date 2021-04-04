@@ -1,4 +1,16 @@
-#include <Httplib.h>
+#include <Httplib/Client.hpp>
+#include <Httplib/Server.hpp>
+#include <Httplib/Headers.hpp>
+#include <Httplib/Request.hpp>
+#include <Httplib/Response.hpp>
+#include <Httplib/BufferStream.hpp>
+
+#include <Httplib/Util/Query.hpp>
+#include <Httplib/Util/Encode.hpp>
+#include <Httplib/Util/Decode.hpp>
+#include <Httplib/Util/String.hpp>
+
+#include <Httplib/Detail/Header.hpp>
 
 #include <gtest/gtest.h>
 

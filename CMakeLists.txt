@@ -311,3 +311,6 @@ install(EXPORT httplibTargets
 
 ADD_SUBDIRECTORY(Source/)
 ADD_SUBDIRECTORY(example/)
+
+ENABLE_TESTING()
+ADD_SUBDIRECTORY(test/)
