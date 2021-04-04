@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_ENCODINGTYPE_HPP
 #define HTTPLIB_ENCODINGTYPE_HPP
 
+#include <Httplib/Detail/MIME.hpp>
+
 namespace httplib {
 
 namespace detail {
