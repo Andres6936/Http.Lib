@@ -4,6 +4,7 @@
 #define HTTPLIB_IO_HPP
 
 #include <fstream>
+#include <cassert>
 #include <sys/stat.h>
 
 namespace httplib {

@@ -4,6 +4,8 @@
 #define HTTPLIB_QUERY_HPP
 
 #include <Httplib/Util/Encode.hpp>
+#include <Httplib/Util/Decode.hpp>
+#include <Httplib/Util/String.hpp>
 
 namespace httplib {
 
