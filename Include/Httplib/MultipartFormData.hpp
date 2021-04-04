@@ -3,6 +3,8 @@
 #ifndef HTTPLIB_MULTIPARTFORMDATA_HPP
 #define HTTPLIB_MULTIPARTFORMDATA_HPP
 
+#include <vector>
+
 namespace httplib {
 
 struct MultipartFormData {
