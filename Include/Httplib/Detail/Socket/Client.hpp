@@ -1,7 +1,6 @@
 // Joan Andrés (@Andres6936) Github.
 
-#ifndef HTTPLIB_CLIENT_HPP
-#define HTTPLIB_CLIENT_HPP
+#pragma once
 
 #include <Httplib/SocketStream.hpp>
 
@@ -71,5 +70,3 @@ inline socket_t create_client_socket(const char *host, int port,
 }
 
 } // namespace httplib
-
-#endif // HTTPLIB_CLIENT_HPP

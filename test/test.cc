@@ -13,6 +13,8 @@
 #include <Httplib/Util/String.hpp>
 
 #include <Httplib/Detail/Header.hpp>
+#include <Httplib/Detail/Socket/Client.hpp>
+
 #include <Httplib/Enum/EncodingType.hpp>
 #include <Httplib/Auth/Authentication.hpp>
 
