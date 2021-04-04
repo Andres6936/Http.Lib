@@ -5,12 +5,15 @@
 #include <Httplib/Response.hpp>
 #include <Httplib/BufferStream.hpp>
 
+#include <Httplib/Util/IO.hpp>
 #include <Httplib/Util/Query.hpp>
 #include <Httplib/Util/Encode.hpp>
 #include <Httplib/Util/Decode.hpp>
 #include <Httplib/Util/String.hpp>
 
 #include <Httplib/Detail/Header.hpp>
+
+#include <Httplib/Enum/EncodingType.hpp>
 
 #include <gtest/gtest.h>
 
